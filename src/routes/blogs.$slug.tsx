@@ -135,7 +135,7 @@ function BlogPost() {
 
         <div className="container mx-auto px-6 max-w-3xl py-16">
           <div className="space-y-6 text-lg leading-[1.8] text-foreground/90">
-            {blog.content.map((p, i) => (
+            {blog.content.map((p: string, i: number) => (
               <motion.p
                 key={i}
                 initial={{ opacity: 0, y: 15 }}
