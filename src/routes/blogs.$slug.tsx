@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Clock, Share2, Twitter, Linkedin, Link as LinkIcon } from "lucide-react";
+import { ArrowLeft, Clock, Share2, Twitter, Linkedin, Link as LinkIcon, Sparkles, Target, Tag } from "lucide-react";
 import { blogs } from "@/data/blogs";
 import { BlogCard } from "@/components/site/BlogCard";
+import { BlockRenderer } from "@/components/site/BlockRenderer";
 
 export const Route = createFileRoute("/blogs/$slug")({
   loader: ({ params }) => {
