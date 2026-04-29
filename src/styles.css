@@ -44,6 +44,9 @@
   --animate-glow: glow 3s ease-in-out infinite;
   --animate-shimmer: shimmer 2.5s linear infinite;
   --animate-grid: grid-move 20s linear infinite;
+  --animate-aurora: aurora 18s ease-in-out infinite;
+  --animate-orb: orb 14s ease-in-out infinite;
+  --animate-gradient-shift: gradient-shift 8s ease infinite;
 }
 
 @keyframes fade-in {
@@ -73,6 +76,19 @@
 @keyframes grid-move {
   0% { transform: translate(0, 0); }
   100% { transform: translate(40px, 40px); }
+}
+@keyframes aurora {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.55; }
+  33% { transform: translate(40px, -30px) rotate(40deg) scale(1.1); opacity: 0.75; }
+  66% { transform: translate(-30px, 40px) rotate(-30deg) scale(0.95); opacity: 0.65; }
+}
+@keyframes orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -40px) scale(1.15); }
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* Default to dark mode */
