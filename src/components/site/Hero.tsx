@@ -15,10 +15,13 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-hero">
-      <div className="absolute inset-0 grid-bg opacity-30 animate-grid" aria-hidden />
+      <div className="aurora" aria-hidden />
+      <div className="absolute inset-0 grid-bg opacity-25 animate-grid" aria-hidden />
+      <div className="noise" aria-hidden />
       <ParticlesBg />
-      <div className="absolute -top-40 -right-32 w-[500px] h-[500px] rounded-full bg-primary/20 blur-3xl animate-glow" aria-hidden />
-      <div className="absolute -bottom-40 -left-32 w-[500px] h-[500px] rounded-full bg-accent/20 blur-3xl animate-glow" aria-hidden />
+      <div className="absolute -top-40 -right-32 w-[520px] h-[520px] rounded-full bg-primary/25 blur-3xl animate-orb" aria-hidden />
+      <div className="absolute -bottom-40 -left-32 w-[520px] h-[520px] rounded-full bg-accent/25 blur-3xl animate-orb" style={{ animationDelay: "-7s" }} aria-hidden />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none" aria-hidden />
 
       <div className="container relative mx-auto px-6 pt-28 pb-20">
         <motion.div
@@ -37,7 +40,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight max-w-5xl"
         >
-          <span className="block text-gradient">Selvan Rajan</span>
+          <span className="block text-gradient-aurora">Selvan Rajan</span>
           <span className="block mt-3 h-[1.1em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-muted-foreground font-medium">
             <AnimatePresence mode="wait">
               <motion.span
