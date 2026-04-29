@@ -222,4 +222,61 @@
     transform: translateY(-6px);
     box-shadow: var(--shadow-glow);
   }
+  .aurora {
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(40% 40% at 20% 30%, oklch(0.72 0.20 285 / 0.45), transparent 60%),
+      radial-gradient(40% 40% at 80% 20%, oklch(0.78 0.18 220 / 0.40), transparent 60%),
+      radial-gradient(40% 40% at 60% 80%, oklch(0.70 0.18 320 / 0.35), transparent 60%);
+    filter: blur(60px);
+    animation: aurora 18s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .noise {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .text-gradient-aurora {
+    background: linear-gradient(120deg,
+      oklch(0.97 0.01 250) 0%,
+      oklch(0.78 0.18 220) 30%,
+      oklch(0.72 0.20 285) 55%,
+      oklch(0.85 0.15 320) 80%,
+      oklch(0.97 0.01 250) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-shift 8s ease infinite;
+  }
+  .card-tilt {
+    transition: transform 0.5s var(--transition-smooth), box-shadow 0.5s var(--transition-smooth);
+    transform-style: preserve-3d;
+  }
+  .card-tilt:hover {
+    transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+    box-shadow: var(--shadow-glow-lg);
+  }
+  .ring-gradient {
+    position: relative;
+  }
+  .ring-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, oklch(0.72 0.20 285 / 0.6), transparent 40%, oklch(0.78 0.18 220 / 0.6));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+  .scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--gradient-primary); border-radius: 3px; }
 }
