@@ -135,20 +135,84 @@ function BlogPost() {
         </motion.div>
 
         <div className="container mx-auto px-6 max-w-3xl py-16">
-          <div className="space-y-6 text-lg leading-[1.8] text-foreground/90">
-            {blog.content.map((p: string, i: number) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-              >
-                {p}
-              </motion.p>
-            ))}
-          </div>
+          {blog.tags && blog.tags.length > 0 && (
+            <div className="mb-10 flex flex-wrap gap-2">
+              {blog.tags.map((t) => (
+                <span key={t} className="inline-flex items-center gap-1.5 glass rounded-full px-3 py-1 text-xs text-muted-foreground">
+                  <Tag className="h-3 w-3" /> {t}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {blog.blocks ? (
+            <BlockRenderer blocks={blog.blocks} />
+          ) : (
+            <div className="space-y-6 text-lg leading-[1.85] text-foreground/90">
+              {(blog.content ?? []).map((p, i) => (
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: i * 0.05 }}
+                >
+                  {p}
+                </motion.p>
+              ))}
+            </div>
+          )}
+
+          {blog.insights && blog.insights.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              className="mt-16 glass-strong rounded-3xl p-7 md:p-9 relative overflow-hidden"
+            >
+              <div className="absolute -top-24 -right-24 w-60 h-60 rounded-full bg-primary/20 blur-3xl" />
+              <div className="flex items-center gap-2 mb-5">
+                <Sparkles className="h-5 w-5 text-primary" />
+                <h3 className="font-display text-xl font-semibold">Key insights</h3>
+              </div>
+              <ul className="grid md:grid-cols-3 gap-4">
+                {blog.insights.map((s, i) => (
+                  <li key={i} className="glass rounded-2xl p-4 text-sm leading-relaxed text-foreground/85">
+                    <span className="font-mono text-xs text-primary">0{i + 1}</span>
+                    <p className="mt-2">{s}</p>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+
+          {blog.takeaways && blog.takeaways.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              className="mt-8 glass rounded-3xl p-7 md:p-9"
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <Target className="h-5 w-5 text-accent" />
+                <h3 className="font-display text-xl font-semibold">Your takeaways</h3>
+              </div>
+              <ul className="space-y-3">
+                {blog.takeaways.map((t, i) => (
+                  <li key={i} className="flex gap-3 items-start text-foreground/90">
+                    <span className="mt-1 h-6 w-6 rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0">
+                      {i + 1}
+                    </span>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
         </div>
+
 
         <section className="container mx-auto px-6 py-16">
           <h2 className="text-3xl font-display font-bold mb-8">
