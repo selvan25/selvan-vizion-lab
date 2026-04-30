@@ -13,6 +13,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
+import { Route as BlogsDelimitation816SeatsRouteImport } from './routes/blogs.delimitation-816-seats'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 
 const ContactRoute = ContactRouteImport.update({
@@ -35,6 +36,12 @@ const BlogsIndexRoute = BlogsIndexRouteImport.update({
   path: '/blogs/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogsDelimitation816SeatsRoute =
+  BlogsDelimitation816SeatsRouteImport.update({
+    id: '/blogs/delimitation-816-seats',
+    path: '/blogs/delimitation-816-seats',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogsSlugRoute = BlogsSlugRouteImport.update({
   id: '/blogs/$slug',
   path: '/blogs/$slug',
@@ -46,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
   '/blogs/': typeof BlogsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +61,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
   '/blogs': typeof BlogsIndexRoute
 }
 export interface FileRoutesById {
@@ -61,14 +70,34 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
   '/blogs/': typeof BlogsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/blogs/$slug' | '/blogs/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/blogs/$slug'
+    | '/blogs/delimitation-816-seats'
+    | '/blogs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/blogs/$slug' | '/blogs'
-  id: '__root__' | '/' | '/about' | '/contact' | '/blogs/$slug' | '/blogs/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/blogs/$slug'
+    | '/blogs/delimitation-816-seats'
+    | '/blogs'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/blogs/$slug'
+    | '/blogs/delimitation-816-seats'
+    | '/blogs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +105,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
+  BlogsDelimitation816SeatsRoute: typeof BlogsDelimitation816SeatsRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
 }
 
@@ -109,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/delimitation-816-seats': {
+      id: '/blogs/delimitation-816-seats'
+      path: '/blogs/delimitation-816-seats'
+      fullPath: '/blogs/delimitation-816-seats'
+      preLoaderRoute: typeof BlogsDelimitation816SeatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/$slug': {
       id: '/blogs/$slug'
       path: '/blogs/$slug'
@@ -124,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   BlogsSlugRoute: BlogsSlugRoute,
+  BlogsDelimitation816SeatsRoute: BlogsDelimitation816SeatsRoute,
   BlogsIndexRoute: BlogsIndexRoute,
 }
 export const routeTree = rootRouteImport

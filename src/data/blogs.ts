@@ -10,6 +10,7 @@ import dataStories2 from "@/assets/blog-data-stories2.jpg";
 import excelVba from "@/assets/blog-excel-vba.jpg";
 import kpi from "@/assets/blog-kpi.jpg";
 import career from "@/assets/blog-career.jpg";
+import delimitation from "@/assets/blog-delimitation.jpg";
 
 export type ChartPoint = { label: string; value: number };
 
@@ -41,6 +42,17 @@ export type Blog = {
 };
 
 export const blogs: Blog[] = [
+  {
+    slug: "delimitation-816-seats",
+    title: "816 Seats: Mapping the New DNA of Indian Democracy",
+    description:
+      "How a flat 50% seat increase is the fairest solution India has seen in 50 years — and why formula-based alternatives fail the democracy test.",
+    category: "Politics & Data",
+    readTime: "12 min read",
+    date: "July 2025",
+    cover: delimitation,
+    tags: ["Delimitation", "Indian Politics", "Data Analysis", "816 Seats", "Women's Reservation"],
+  },
   // ───────────── NEW PREMIUM ARTICLES ─────────────
   {
     slug: "power-bi-dashboard-design-tips",
