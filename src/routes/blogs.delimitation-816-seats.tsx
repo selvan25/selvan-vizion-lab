@@ -970,8 +970,8 @@ function DelimitationPost() {
       </header>
 
       {/* BODY */}
-      <div className="container mx-auto px-6 max-w-7xl py-16">
-        <div className="grid xl:grid-cols-[1fr_240px] gap-10">
+      <div className="container mx-auto px-5 sm:px-6 max-w-7xl py-12 sm:py-16">
+        <div className="grid xl:grid-cols-[1fr_240px] gap-8 sm:gap-10">
           <main className="max-w-3xl mx-auto xl:mx-0 w-full">
 
             {/* SECTION 1 */}
