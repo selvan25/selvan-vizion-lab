@@ -912,7 +912,7 @@ function DelimitationPost() {
               <span className="px-3 py-1 rounded-full font-semibold" style={{ background: C.saffron, color: C.navy }}>
                 Politics & Data
               </span>
-              <span style={{ color: "#94a3b8" }}>July 2025</span>
+              <span className="text-blog-hero-muted">May 1, 2026</span>
               <span className="inline-flex items-center gap-1.5" style={{ color: "#94a3b8" }}>
                 <Clock className="h-3 w-3" /> 12 min read
               </span>
