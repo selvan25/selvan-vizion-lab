@@ -42,7 +42,9 @@ export const Route = createFileRoute("/blogs/delimitation-816-seats")({
   component: DelimitationPost,
 });
 
-/* ---------------- TOKENS ---------------- */
+/* ---------------- TOKENS ----------------
+   Brand colors stay constant. Neutral surfaces/text use CSS vars
+   so the page adapts to the global light/dark theme toggle. */
 const C = {
   navy: "#0D1B2A",
   saffron: "#F4A026",
@@ -51,11 +53,12 @@ const C = {
   north: "#EF4444",
   ne: "#8B5CF6",
   ut: "#F59E0B",
-  text: "#1F2937",
-  text2: "#6B7280",
-  card: "#FFFFFF",
-  alt: "#F8FAFC",
-  grid: "#E5E7EB",
+  // Theme-aware tokens
+  text: "var(--foreground)",
+  text2: "var(--muted-foreground)",
+  card: "var(--card)",
+  alt: "var(--muted)",
+  grid: "var(--border)",
 };
 
 /* ---------------- DATA ---------------- */
