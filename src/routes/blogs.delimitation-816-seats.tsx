@@ -142,7 +142,7 @@ function SectionHeading({ kicker, children, id }: { kicker?: string; children: R
         </span>
       )}
       <h2
-        className="mt-2 font-display text-3xl md:text-5xl font-bold tracking-tight"
+        className="mt-2 font-display text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight break-words"
         style={{
           background: `linear-gradient(90deg, ${C.saffron}, ${C.teal})`,
           WebkitBackgroundClip: "text",
@@ -867,16 +867,16 @@ function DelimitationPost() {
       />
 
       {/* HERO */}
-      <header className="relative pt-32 pb-20 overflow-hidden" style={{ background: C.navy }}>
+      <header className="relative pt-28 sm:pt-32 pb-16 sm:pb-20 overflow-hidden bg-blog-hero">
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-20"
           style={{
             backgroundImage: `url(${deliCover})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         />
-        <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${C.navy}cc 0%, ${C.navy} 100%)` }} />
+        <div className="absolute inset-0 bg-blog-hero-overlay" />
         {/* glowing dots */}
         {[
           [22, 35], [35, 28], [48, 42], [55, 30], [40, 55], [32, 65], [60, 60], [70, 45], [25, 75], [50, 78],
@@ -893,11 +893,10 @@ function DelimitationPost() {
             }}
           />
         ))}
-        <div className="relative container mx-auto px-6 max-w-5xl">
+        <div className="relative container mx-auto px-5 sm:px-6 max-w-5xl">
           <Link
             to="/blogs"
-            className="inline-flex items-center gap-2 text-sm transition-colors"
-            style={{ color: "#94a3b8" }}
+            className="inline-flex items-center gap-2 text-sm transition-colors text-blog-hero-muted hover:opacity-80"
           >
             <ArrowLeft className="h-4 w-4" /> Back to blog
           </Link>
@@ -906,19 +905,19 @@ function DelimitationPost() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="mt-8"
+            className="mt-6 sm:mt-8"
           >
-            <div className="flex flex-wrap items-center gap-3 text-xs">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
               <span className="px-3 py-1 rounded-full font-semibold" style={{ background: C.saffron, color: C.navy }}>
                 Politics & Data
               </span>
-              <span style={{ color: "#94a3b8" }}>July 2025</span>
-              <span className="inline-flex items-center gap-1.5" style={{ color: "#94a3b8" }}>
+              <span className="text-blog-hero-muted">May 1, 2026</span>
+              <span className="inline-flex items-center gap-1.5 text-blog-hero-muted">
                 <Clock className="h-3 w-3" /> 12 min read
               </span>
             </div>
             <h1
-              className="mt-6 font-display font-bold tracking-tight text-4xl md:text-6xl lg:text-7xl text-white leading-[1.05]"
+              className="mt-5 sm:mt-6 font-display font-bold tracking-tight text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-blog-hero-title leading-[1.1] sm:leading-[1.05] break-words"
             >
               816 Seats:{" "}
               <span
@@ -932,16 +931,15 @@ function DelimitationPost() {
                 Mapping the New DNA of Indian Democracy
               </span>
             </h1>
-            <p className="mt-5 text-lg md:text-xl max-w-3xl" style={{ color: "#cbd5e1" }}>
+            <p className="mt-4 sm:mt-5 text-base sm:text-lg md:text-xl max-w-3xl text-blog-hero-body">
               How a flat 50% seat increase is the fairest solution India has seen in 50 years — and why
               formula-based alternatives fail the democracy test.
             </p>
 
             <div
-              className="mt-10 rounded-2xl p-6 md:p-7 max-w-3xl"
-              style={{ background: "#142640", border: `1px solid ${C.saffron}33` }}
+              className="mt-8 sm:mt-10 rounded-2xl p-5 sm:p-6 md:p-7 max-w-3xl bg-blog-hero-card"
             >
-              <p className="text-base md:text-lg italic leading-relaxed" style={{ color: "#e2e8f0" }}>
+              <p className="text-sm sm:text-base md:text-lg italic leading-relaxed text-blog-hero-body">
                 For 50 years, India's Lok Sabha was frozen at 543 seats — drawn from a 1971 census while the
                 country added 600 million people. The 2026 delimitation bill proposes a clean, flat 50%
                 increase to 816 seats across all states. This analysis shows why that simple formula is not
@@ -950,21 +948,19 @@ function DelimitationPost() {
             </div>
 
             {/* share */}
-            <div className="mt-8 flex flex-wrap items-center gap-3 text-xs" style={{ color: "#94a3b8" }}>
+            <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3 text-xs text-blog-hero-muted">
               <span className="inline-flex items-center gap-1.5"><Share2 className="h-3.5 w-3.5" /> Share:</span>
               <a
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("816 Seats: Mapping the New DNA of Indian Democracy")}&url=${encodeURIComponent(shareUrl)}`}
                 target="_blank" rel="noreferrer"
-                className="rounded-full p-2"
-                style={{ background: "#142640" }}
+                className="rounded-full p-2 bg-blog-hero-chip"
               ><Twitter className="h-3.5 w-3.5" /></a>
               <a
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                 target="_blank" rel="noreferrer"
-                className="rounded-full p-2"
-                style={{ background: "#142640" }}
+                className="rounded-full p-2 bg-blog-hero-chip"
               ><Linkedin className="h-3.5 w-3.5" /></a>
-              <button onClick={copyLink} className="rounded-full p-2" style={{ background: "#142640" }}>
+              <button onClick={copyLink} className="rounded-full p-2 bg-blog-hero-chip" aria-label="Copy link">
                 <LinkIcon className="h-3.5 w-3.5" />
               </button>
               {copied && <span style={{ color: C.saffron }}>Copied!</span>}
@@ -974,8 +970,8 @@ function DelimitationPost() {
       </header>
 
       {/* BODY */}
-      <div className="container mx-auto px-6 max-w-7xl py-16">
-        <div className="grid xl:grid-cols-[1fr_240px] gap-10">
+      <div className="container mx-auto px-5 sm:px-6 max-w-7xl py-12 sm:py-16">
+        <div className="grid xl:grid-cols-[1fr_240px] gap-8 sm:gap-10">
           <main className="max-w-3xl mx-auto xl:mx-0 w-full">
 
             {/* SECTION 1 */}

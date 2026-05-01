@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Instagram, Linkedin, Mail } from "lucide-react";
 
 export function Footer() {
   return (
@@ -30,9 +30,9 @@ export function Footer() {
             <h4 className="text-sm font-semibold mb-4">Connect</h4>
             <div className="flex gap-3">
               {[
-                { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                { Icon: Github, href: "https://github.com", label: "GitHub" },
-                { Icon: Mail, href: "mailto:hello@selvan.dev", label: "Email" },
+                { Icon: Linkedin, href: "https://www.linkedin.com/in/selvan-rajan-968823213/", label: "LinkedIn" },
+                { Icon: Instagram, href: "https://www.instagram.com/iam_selvan/", label: "Instagram" },
+                { Icon: Mail, href: "mailto:selvanrajan143@gmail.com", label: "Email" },
               ].map(({ Icon, href, label }) => (
                 <a
                   key={label}

@@ -49,7 +49,7 @@ export const blogs: Blog[] = [
       "How a flat 50% seat increase is the fairest solution India has seen in 50 years — and why formula-based alternatives fail the democracy test.",
     category: "Politics & Data",
     readTime: "12 min read",
-    date: "July 2025",
+    date: "May 1, 2026",
     cover: delimitation,
     tags: ["Delimitation", "Indian Politics", "Data Analysis", "816 Seats", "Women's Reservation"],
   },
