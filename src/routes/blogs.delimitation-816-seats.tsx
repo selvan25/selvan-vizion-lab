@@ -310,14 +310,14 @@ function ShareDonut({
   let acc = 0;
   return (
     <div
-      className="rounded-2xl p-5"
+      className="rounded-2xl p-5 flex flex-col"
       style={{ background: C.card, boxShadow: "0 8px 30px rgba(13,27,42,0.08)" }}
     >
-      <h5 className="text-sm font-semibold mb-4" style={{ color: C.text }}>{title}</h5>
-      <div className="flex items-center gap-5">
-        <div className="relative w-[150px] h-[150px] shrink-0">
+      <h5 className="text-sm font-semibold mb-4 text-center" style={{ color: C.text }}>{title}</h5>
+      <div className="flex justify-center">
+        <div className="relative w-[160px] h-[160px]">
           <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
-            <circle cx="80" cy="80" r={R} fill="none" stroke={C.grid} strokeWidth="20" />
+            <circle cx="80" cy="80" r={R} fill="none" style={{ stroke: C.grid }} strokeWidth="20" />
             {order.map((r, i) => {
               const v = regionSummary[r][field];
               const frac = v / total;
@@ -348,20 +348,20 @@ function ShareDonut({
             <span className="text-[10px] uppercase tracking-[0.18em]" style={{ color: C.text2 }}>seats</span>
           </div>
         </div>
-        <div className="flex-1 space-y-1.5 text-xs">
-          {order.map((r) => {
-            const v = regionSummary[r][field];
-            return (
-              <div key={r} className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-sm" style={{ background: regionColor(r) }} />
-                <span className="flex-1" style={{ color: C.text }}>{r}</span>
-                <span className="font-mono tabular-nums" style={{ color: C.text2 }}>
-                  {v} ({((v / total) * 100).toFixed(1)}%)
-                </span>
-              </div>
-            );
-          })}
-        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-1.5 text-xs">
+        {order.map((r) => {
+          const v = regionSummary[r][field];
+          return (
+            <div key={r} className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ background: regionColor(r) }} />
+              <span className="flex-1 truncate" style={{ color: C.text }}>{r}</span>
+              <span className="font-mono tabular-nums shrink-0" style={{ color: C.text2 }}>
+                {v} <span className="opacity-70">({((v / total) * 100).toFixed(1)}%)</span>
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
