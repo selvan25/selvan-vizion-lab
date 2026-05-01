@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Send, Check, Github, Linkedin, Mail } from "lucide-react";
+import { Send, Check, Instagram, Linkedin, Mail } from "lucide-react";
 import { z } from "zod";
 
 const schema = z.object({
@@ -77,9 +77,9 @@ function Contact() {
             </div>
             <div className="space-y-3">
               {[
-                { Icon: Mail, label: "hello@selvan.dev", href: "mailto:hello@selvan.dev" },
-                { Icon: Linkedin, label: "linkedin.com/in/selvan", href: "https://linkedin.com" },
-                { Icon: Github, label: "github.com/selvan", href: "https://github.com" },
+                { Icon: Mail, label: "selvanrajan143@gmail.com", href: "mailto:selvanrajan143@gmail.com" },
+                { Icon: Linkedin, label: "linkedin.com/in/selvan-rajan-968823213", href: "https://www.linkedin.com/in/selvan-rajan-968823213/" },
+                { Icon: Instagram, label: "instagram.com/iam_selvan", href: "https://www.instagram.com/iam_selvan/" },
               ].map(({ Icon, label, href }) => (
                 <a
                   key={label}
