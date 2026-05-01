@@ -187,13 +187,14 @@ function Timeline() {
     { year: "2026", label: "THE UNFREEZE", sub: "816 seats proposed", pulse: true },
   ];
   return (
-    <div className="not-prose my-8 rounded-3xl p-6 md:p-10 overflow-x-auto" style={{ background: C.navy }}>
-      <div className="relative min-w-[720px]">
+    <div className="not-prose my-8 rounded-3xl p-6 md:p-10" style={{ background: C.navy }}>
+      <div className="relative">
+        {/* Horizontal connector — only on md+ where items are in a row */}
         <div
-          className="absolute left-0 right-0 top-1/2 h-px"
+          className="hidden md:block absolute left-0 right-0 top-[58px] h-px"
           style={{ background: `linear-gradient(90deg, ${C.saffron}66, ${C.saffron}, ${C.saffron}66)` }}
         />
-        <div className="relative grid grid-cols-5 gap-4">
+        <div className="relative grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-8">
           {nodes.map((n, i) => (
             <motion.div
               key={n.year}
