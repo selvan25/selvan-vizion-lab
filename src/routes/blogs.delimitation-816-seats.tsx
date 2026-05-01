@@ -445,28 +445,60 @@ function WinnersTable() {
 
 /* ---------------- BUBBLE / SCATTER ---------------- */
 function Scatter() {
-  const W = 640, H = 360, PAD = 50;
+  const W = 680, H = 400, PAD_L = 60, PAD_B = 56, PAD_T = 30, PAD_R = 30;
   const xs = stateData.map((s) => s.population / 1e6);
   const ys = stateData.map((s) => s.proRataSeats);
-  const xMax = Math.max(...xs), yMax = Math.max(...ys);
+  const xMax = Math.ceil(Math.max(...xs) / 25) * 25; // round to nearest 25M
+  const yMax = Math.ceil(Math.max(...ys) / 20) * 20; // round to nearest 20 seats
   const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra"];
+
+  const xTicks = 5;
+  const yTicks = 5;
+  const plotW = W - PAD_L - PAD_R;
+  const plotH = H - PAD_T - PAD_B;
+  const xPos = (v: number) => PAD_L + (v / xMax) * plotW;
+  const yPos = (v: number) => PAD_T + (1 - v / yMax) * plotH;
 
   return (
     <ChartCard title="Population vs. Representation Under Pro-Rata Model">
       <div className="overflow-x-auto">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-[380px] min-w-[600px]">
-          {[0, 0.25, 0.5, 0.75, 1].map((g) => (
-            <line key={g} x1={PAD} x2={W - PAD} y1={PAD + g * (H - PAD * 2)} y2={PAD + g * (H - PAD * 2)} stroke={C.grid} strokeDasharray="3 4" />
-          ))}
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-[420px] min-w-[600px]">
+          {/* horizontal grid + Y tick labels */}
+          {Array.from({ length: yTicks + 1 }, (_, i) => {
+            const v = (yMax / yTicks) * i;
+            const y = yPos(v);
+            return (
+              <g key={`y-${i}`}>
+                <line x1={PAD_L} x2={W - PAD_R} y1={y} y2={y} style={{ stroke: C.grid }} strokeDasharray="3 4" />
+                <text x={PAD_L - 8} y={y + 3} textAnchor="end" fontSize="10" style={{ fill: C.text2 }}>
+                  {Math.round(v)}
+                </text>
+              </g>
+            );
+          })}
+          {/* vertical X tick labels */}
+          {Array.from({ length: xTicks + 1 }, (_, i) => {
+            const v = (xMax / xTicks) * i;
+            const x = xPos(v);
+            return (
+              <g key={`x-${i}`}>
+                <line x1={x} x2={x} y1={H - PAD_B} y2={H - PAD_B + 4} style={{ stroke: C.text2 }} />
+                <text x={x} y={H - PAD_B + 16} textAnchor="middle" fontSize="10" style={{ fill: C.text2 }}>
+                  {Math.round(v)}
+                </text>
+              </g>
+            );
+          })}
+
           {/* national avg line */}
-          <line x1={PAD} x2={W - PAD} y1={PAD + (1 - 80 / yMax) * (H - PAD * 2)} y2={PAD + (1 - 80 / yMax) * (H - PAD * 2)} stroke={C.saffron} strokeDasharray="6 4" strokeWidth={1.5} />
-          <text x={W - PAD} y={PAD + (1 - 80 / yMax) * (H - PAD * 2) - 6} textAnchor="end" fontSize="10" fill={C.saffron}>
+          <line x1={PAD_L} x2={W - PAD_R} y1={yPos(80)} y2={yPos(80)} stroke={C.saffron} strokeDasharray="6 4" strokeWidth={1.5} />
+          <text x={W - PAD_R} y={yPos(80) - 6} textAnchor="end" fontSize="10" fill={C.saffron}>
             National avg ~1.48M / MP
           </text>
 
           {stateData.map((s, i) => {
-            const x = PAD + (s.population / 1e6 / xMax) * (W - PAD * 2);
-            const y = PAD + (1 - s.proRataSeats / yMax) * (H - PAD * 2);
+            const x = xPos(s.population / 1e6);
+            const y = yPos(s.proRataSeats);
             const ppmp = s.population / s.currentSeats;
             const r = Math.max(4, Math.min(18, ppmp / 200000));
             return (
@@ -480,7 +512,7 @@ function Scatter() {
               >
                 <circle cx={x} cy={y} r={r} fill={regionColor(s.category)} fillOpacity={0.55} stroke={regionColor(s.category)} strokeWidth={1.2} />
                 {labelStates.includes(s.state) && (
-                  <text x={x + r + 4} y={y + 3} fontSize="10" fill={C.text} fontWeight="600">
+                  <text x={x + r + 4} y={y + 3} fontSize="10" style={{ fill: C.text }} fontWeight="600">
                     {s.state}
                   </text>
                 )}
@@ -488,10 +520,15 @@ function Scatter() {
             );
           })}
           {/* axes */}
-          <line x1={PAD} x2={W - PAD} y1={H - PAD} y2={H - PAD} stroke={C.text2} />
-          <line x1={PAD} x2={PAD} y1={PAD} y2={H - PAD} stroke={C.text2} />
-          <text x={W / 2} y={H - 10} textAnchor="middle" fontSize="11" fill={C.text2}>Population (millions)</text>
-          <text x={14} y={H / 2} textAnchor="middle" fontSize="11" fill={C.text2} transform={`rotate(-90 14 ${H / 2})`}>Pro-Rata Seats</text>
+          <line x1={PAD_L} x2={W - PAD_R} y1={H - PAD_B} y2={H - PAD_B} style={{ stroke: C.text2 }} />
+          <line x1={PAD_L} x2={PAD_L} y1={PAD_T} y2={H - PAD_B} style={{ stroke: C.text2 }} />
+          {/* axis titles */}
+          <text x={PAD_L + plotW / 2} y={H - 10} textAnchor="middle" fontSize="11" style={{ fill: C.text2 }} fontWeight="600">
+            Population (millions)
+          </text>
+          <text x={16} y={PAD_T + plotH / 2} textAnchor="middle" fontSize="11" style={{ fill: C.text2 }} fontWeight="600" transform={`rotate(-90 16 ${PAD_T + plotH / 2})`}>
+            Pro-Rata Seats
+          </text>
         </svg>
       </div>
       <div className="mt-4 flex flex-wrap gap-4 text-xs" style={{ color: C.text2 }}>
@@ -499,6 +536,7 @@ function Scatter() {
         <Legend color={C.north} label="North" />
         <Legend color={C.ne} label="North-East" />
         <Legend color={C.ut} label="UT" />
+        <span className="ml-2 italic">Bubble size ∝ people-per-MP today</span>
       </div>
     </ChartCard>
   );
