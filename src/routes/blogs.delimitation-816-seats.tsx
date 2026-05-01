@@ -142,7 +142,7 @@ function SectionHeading({ kicker, children, id }: { kicker?: string; children: R
         </span>
       )}
       <h2
-        className="mt-2 font-display text-3xl md:text-5xl font-bold tracking-tight"
+        className="mt-2 font-display text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight break-words"
         style={{
           background: `linear-gradient(90deg, ${C.saffron}, ${C.teal})`,
           WebkitBackgroundClip: "text",
