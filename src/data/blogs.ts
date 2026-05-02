@@ -11,6 +11,7 @@ import excelVba from "@/assets/blog-excel-vba.jpg";
 import kpi from "@/assets/blog-kpi.jpg";
 import career from "@/assets/blog-career.jpg";
 import delimitation from "@/assets/blog-delimitation.jpg";
+import tn2026 from "@/assets/blog-tn2026.jpg";
 
 export type ChartPoint = { label: string; value: number };
 
@@ -42,6 +43,17 @@ export type Blog = {
 };
 
 export const blogs: Blog[] = [
+  {
+    slug: "tn-2026-voter-participation",
+    title: "The 85% Question: Did Tamil Nadu Really Vote More, or Did the Numbers Just Get Smaller?",
+    description:
+      "A simple data-driven case for why Tamil Nadu's 2026 voter surge is real — and why SIR is not the reason for it.",
+    category: "Election Analysis",
+    readTime: "6 min read",
+    date: "May 2, 2026",
+    cover: tn2026,
+    tags: ["Tamil Nadu", "Elections 2026", "Voter Turnout", "SIR", "TVK"],
+  },
   {
     slug: "delimitation-816-seats",
     title: "816 Seats: Mapping the New DNA of Indian Democracy",
