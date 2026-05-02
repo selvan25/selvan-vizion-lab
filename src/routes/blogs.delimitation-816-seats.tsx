@@ -763,8 +763,8 @@ function StateExplorer() {
         className="grid md:grid-cols-2 gap-6"
       >
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <h3 className="font-display text-2xl font-bold" style={{ color: C.text }}>{s.state}</h3>
+          <div className="flex items-center gap-3 mb-4 flex-wrap">
+            <h3 className="font-display text-xl sm:text-2xl font-bold break-words" style={{ color: C.text }}>{s.state}</h3>
             <span
               className="px-2.5 py-1 rounded-full text-[10px] font-semibold"
               style={{ background: regionColor(s.category) + "22", color: regionColor(s.category) }}
