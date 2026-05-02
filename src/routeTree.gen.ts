@@ -13,6 +13,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
+import { Route as BlogsTn2026VoterParticipationRouteImport } from './routes/blogs.tn-2026-voter-participation'
 import { Route as BlogsDelimitation816SeatsRouteImport } from './routes/blogs.delimitation-816-seats'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 
@@ -36,6 +37,12 @@ const BlogsIndexRoute = BlogsIndexRouteImport.update({
   path: '/blogs/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogsTn2026VoterParticipationRoute =
+  BlogsTn2026VoterParticipationRouteImport.update({
+    id: '/blogs/tn-2026-voter-participation',
+    path: '/blogs/tn-2026-voter-participation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogsDelimitation816SeatsRoute =
   BlogsDelimitation816SeatsRouteImport.update({
     id: '/blogs/delimitation-816-seats',
@@ -54,6 +61,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
+  '/blogs/tn-2026-voter-participation': typeof BlogsTn2026VoterParticipationRoute
   '/blogs/': typeof BlogsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -62,6 +70,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
+  '/blogs/tn-2026-voter-participation': typeof BlogsTn2026VoterParticipationRoute
   '/blogs': typeof BlogsIndexRoute
 }
 export interface FileRoutesById {
@@ -71,6 +80,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
+  '/blogs/tn-2026-voter-participation': typeof BlogsTn2026VoterParticipationRoute
   '/blogs/': typeof BlogsIndexRoute
 }
 export interface FileRouteTypes {
@@ -81,6 +91,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/blogs/$slug'
     | '/blogs/delimitation-816-seats'
+    | '/blogs/tn-2026-voter-participation'
     | '/blogs/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -89,6 +100,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/blogs/$slug'
     | '/blogs/delimitation-816-seats'
+    | '/blogs/tn-2026-voter-participation'
     | '/blogs'
   id:
     | '__root__'
@@ -97,6 +109,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/blogs/$slug'
     | '/blogs/delimitation-816-seats'
+    | '/blogs/tn-2026-voter-participation'
     | '/blogs/'
   fileRoutesById: FileRoutesById
 }
@@ -106,6 +119,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
   BlogsDelimitation816SeatsRoute: typeof BlogsDelimitation816SeatsRoute
+  BlogsTn2026VoterParticipationRoute: typeof BlogsTn2026VoterParticipationRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
 }
 
@@ -139,6 +153,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/tn-2026-voter-participation': {
+      id: '/blogs/tn-2026-voter-participation'
+      path: '/blogs/tn-2026-voter-participation'
+      fullPath: '/blogs/tn-2026-voter-participation'
+      preLoaderRoute: typeof BlogsTn2026VoterParticipationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/delimitation-816-seats': {
       id: '/blogs/delimitation-816-seats'
       path: '/blogs/delimitation-816-seats'
@@ -162,6 +183,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   BlogsSlugRoute: BlogsSlugRoute,
   BlogsDelimitation816SeatsRoute: BlogsDelimitation816SeatsRoute,
+  BlogsTn2026VoterParticipationRoute: BlogsTn2026VoterParticipationRoute,
   BlogsIndexRoute: BlogsIndexRoute,
 }
 export const routeTree = rootRouteImport
