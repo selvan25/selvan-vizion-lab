@@ -369,7 +369,7 @@ function ShareDonut({
 
 /* ---------------- WINNER/LOSER TABLE ---------------- */
 function WinnersTable() {
-  const [filter, setFilter] = useState<"All" | Region>("All");
+  const [filter, setFilter] = useState<"All" | Region>("South");
   const filtered = useMemo(
     () => stateData.filter((s) => filter === "All" || s.category === filter),
     [filter]
@@ -393,6 +393,12 @@ function WinnersTable() {
           </button>
         ))}
       </div>
+      {/* Mobile scroll hint */}
+      <p className="mb-2 text-[11px] flex items-center gap-1.5 sm:hidden" style={{ color: C.text2 }}>
+        <span>←</span>
+        <span>Swipe right to see all columns</span>
+        <span>→</span>
+      </p>
       <div className="overflow-x-auto w-full">
         <table className="w-full min-w-[520px] text-sm">
           <thead>
@@ -451,7 +457,7 @@ function Scatter() {
   const ys = stateData.map((s) => s.proRataSeats);
   const xMax = Math.ceil(Math.max(...xs) / 25) * 25; // 200
   const yMax = Math.ceil(Math.max(...ys) / 20) * 20; // 120
-  const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra", "West Bengal"];
+  const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra", "West Bengal", "Andhra Pradesh"];
 
   const xTicks = 5;
   const yTicks = 5;
@@ -501,9 +507,10 @@ function Scatter() {
             );
           })}
 
-          {/* national avg line */}
-          <line x1={PAD_L} x2={W - PAD_R} y1={yPos(80)} y2={yPos(80)} stroke={C.saffron} strokeDasharray="6 4" strokeWidth={1.5} />
-          <text x={W - PAD_R} y={yPos(80) - 6} textAnchor="end" fontSize="10" fill={C.saffron}>
+          {/* national avg line — 816 seats / 30 states ≈ 27 avg, but UP at 120 is clearly above avg */}
+          {/* Draw line at ~27 seats representing "average state" */}
+          <line x1={PAD_L} x2={W - PAD_R} y1={yPos(27)} y2={yPos(27)} stroke={C.saffron} strokeDasharray="6 4" strokeWidth={1.5} />
+          <text x={W - PAD_R} y={yPos(27) - 6} textAnchor="end" fontSize="10" fill={C.saffron}>
             National avg ~1.48M / MP
           </text>
 
@@ -513,6 +520,9 @@ function Scatter() {
             const ppmp = s.population / s.currentSeats;
             const r = Math.max(5, Math.min(16, ppmp / 220000));
             const isHover = hover === s.state;
+            // offset labels to avoid overlap: UP goes left, others go right
+            const labelX = s.state === "Uttar Pradesh" ? x - r - 4 : x + r + 4;
+            const labelAnchor = s.state === "Uttar Pradesh" ? "end" : "start";
             return (
               <motion.g
                 key={s.state}
@@ -536,7 +546,7 @@ function Scatter() {
                   strokeWidth={isHover ? 2 : 1.2}
                 />
                 {labelStates.includes(s.state) && (
-                  <text x={x + r + 4} y={y + 3} fontSize="10" style={{ fill: C.text }} fontWeight="600">
+                  <text x={labelX} y={y + 3} fontSize="10" textAnchor={labelAnchor} style={{ fill: C.text }} fontWeight="600">
                     {s.state}
                   </text>
                 )}
@@ -604,6 +614,16 @@ function MajorityBar() {
   const order: Region[] = ["North", "South", "North-East", "UT"];
   const majPct = (409 / total) * 100;
   let cum = 0;
+
+  const indiNorthStates = [
+    { state: "Uttar Pradesh", note: "INDI alliance won 43 of 80 seats in 2024 Lok Sabha — BJP lost its majority here" },
+    { state: "Bihar", note: "JDU-BJP alliance holds, but RJD-Congress bloc is strong opposition" },
+    { state: "Jharkhand", note: "JMM-Congress (INDI) governs state since 2019" },
+    { state: "Himachal Pradesh", note: "Congress governs state since Dec 2022" },
+    { state: "West Bengal", note: "TMC (INDI ally) dominates — BJP won only 12 of 42 seats in 2024" },
+    { state: "Odisha", note: "BJD split — complex. INDI bloc competitive in 2024 Lok Sabha" },
+  ];
+
   return (
     <ChartCard title="The 409 Majority Mark — No Region Sweeps Alone">
       <div className="relative pt-8 pb-1">
@@ -642,6 +662,44 @@ function MajorityBar() {
       <p className="mt-4 text-sm" style={{ color: C.text2 }}>
         Even in the 2019 landslide, NDA won only 352 of 543 (65%). A 65% sweep of 816 = 531 — still requiring nationwide appeal.
       </p>
+
+      {/* INDI Alliance North States */}
+      <div className="mt-6 rounded-2xl p-4 sm:p-5" style={{ background: C.alt }}>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="h-2.5 w-2.5 rounded-full" style={{ background: C.teal }} />
+          <span className="text-sm font-bold" style={{ color: C.text }}>
+            "But the North votes BJP" — Not entirely true
+          </span>
+        </div>
+        <p className="text-xs sm:text-sm mb-4" style={{ color: C.text2 }}>
+          The South's fear is that 557 North seats will go to one party. But North India is not a monolith.
+          The INDI alliance controls or competes strongly in several large North states — including{" "}
+          <strong style={{ color: C.teal }}>UP itself</strong>, where BJP lost its majority in the 2024 Lok Sabha election.
+        </p>
+        <div className="space-y-2">
+          {indiNorthStates.map((s) => (
+            <div
+              key={s.state}
+              className="flex gap-3 items-start rounded-xl px-3 py-2.5 text-xs sm:text-sm"
+              style={{ background: C.card, border: `1px solid ${C.grid}` }}
+            >
+              <span className="shrink-0 mt-0.5 h-2 w-2 rounded-full" style={{ background: C.teal }} />
+              <div className="min-w-0">
+                <span className="font-semibold" style={{ color: C.text }}>{s.state}: </span>
+                <span style={{ color: C.text2 }}>{s.note}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div
+          className="mt-4 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium"
+          style={{ background: C.navy, color: C.saffron }}
+        >
+          🗳️ <strong>Key fact:</strong> In 2024, INDI alliance won <strong>43 out of UP's 80 Lok Sabha seats</strong>.
+          The state with the most MPs under any delimitation model is already split — not a BJP fortress.
+          More absolute seats in UP does <em>not</em> mean more BJP seats.
+        </div>
+      </div>
     </ChartCard>
   );
 }
