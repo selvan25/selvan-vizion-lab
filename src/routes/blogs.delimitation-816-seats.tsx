@@ -618,7 +618,7 @@ function MajorityBar() {
               viewport={{ once: true }}
               transition={{ duration: 0.9, delay: i * 0.15 }}
               className="absolute top-0 h-full flex items-center justify-center text-[10px] sm:text-xs font-semibold text-white overflow-hidden"
-              style={{ left: `${left}%`, width: `${width}%`, background: regionColor(r) }}
+              style={{ left: `${left}%`, background: regionColor(r) }}
             >
               <span className="truncate px-1">{width >= 8 ? `${r}: ${v}` : ""}</span>
             </motion.div>
