@@ -617,10 +617,10 @@ function MajorityBar() {
               whileInView={{ width: `${width}%` }}
               viewport={{ once: true }}
               transition={{ duration: 0.9, delay: i * 0.15 }}
-              className="absolute top-0 h-full flex items-center justify-center text-xs font-semibold text-white"
-              style={{ left: `${left}%`, background: regionColor(r) }}
+              className="absolute top-0 h-full flex items-center justify-center text-[10px] sm:text-xs font-semibold text-white overflow-hidden"
+              style={{ left: `${left}%`, width: `${width}%`, background: regionColor(r) }}
             >
-              {v >= 30 ? `${r}: ${v}` : ""}
+              <span className="truncate px-1">{width >= 8 ? `${r}: ${v}` : ""}</span>
             </motion.div>
           );
         })}
