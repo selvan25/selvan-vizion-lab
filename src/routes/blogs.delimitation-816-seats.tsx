@@ -260,8 +260,8 @@ function ScenarioBars() {
               { v: r.proRataSeats, label: "Pro-Rata 50%", color: C.south },
               { v: r.strictSeats, label: "Strict Pop", color: C.north },
             ].map((b, i) => (
-              <div key={b.label} className="grid grid-cols-[110px_1fr_auto] items-center gap-3 text-xs mb-1.5">
-                <span style={{ color: C.text2 }}>{b.label}</span>
+              <div key={b.label} className="grid grid-cols-[80px_1fr_auto] sm:grid-cols-[110px_1fr_auto] items-center gap-2 sm:gap-3 text-[11px] sm:text-xs mb-1.5">
+                <span className="truncate" style={{ color: C.text2 }}>{b.label}</span>
                 <div className="h-2.5 rounded-full" style={{ background: C.grid }}>
                   <motion.div
                     initial={{ width: 0 }}
