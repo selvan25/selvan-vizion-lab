@@ -163,7 +163,7 @@ function SectionHeading({ kicker, children, id }: { kicker?: string; children: R
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
-      className="not-prose my-6 sm:my-8 rounded-2xl p-4 sm:p-5 md:p-7"
+      className="not-prose my-6 sm:my-8 rounded-2xl p-4 sm:p-5 md:p-7 min-w-0 overflow-hidden"
       style={{
         background: C.card,
         boxShadow: "0 8px 30px rgba(13,27,42,0.08), 0 2px 6px rgba(13,27,42,0.04)",
@@ -315,7 +315,7 @@ function ShareDonut({
     >
       <h5 className="text-sm font-semibold mb-4 text-center" style={{ color: C.text }}>{title}</h5>
       <div className="flex justify-center">
-        <div className="relative w-[160px] h-[160px]">
+        <div className="relative w-full max-w-[160px] aspect-square">
           <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
             <circle cx="80" cy="80" r={R} fill="none" style={{ stroke: C.grid }} strokeWidth="20" />
             {order.map((r, i) => {
@@ -393,16 +393,16 @@ function WinnersTable() {
           </button>
         ))}
       </div>
-      <div className="-mx-4 sm:mx-0 overflow-x-auto">
-        <table className="w-full min-w-[560px] text-sm px-4 sm:px-0">
+      <div className="overflow-x-auto w-full">
+        <table className="w-full min-w-[520px] text-sm">
           <thead>
             <tr className="text-left text-xs uppercase tracking-wider" style={{ color: C.text2 }}>
-              <th className="py-3 pl-4 sm:pl-0 pr-3">State</th>
+              <th className="py-3 pr-3">State</th>
               <th className="py-3 pr-3">Region</th>
               <th className="py-3 pr-3 text-right">Current</th>
               <th className="py-3 pr-3 text-right">Pro-Rata</th>
               <th className="py-3 pr-3 text-right">Strict</th>
-              <th className="py-3 pr-4 sm:pr-0 text-right">Δ vs Strict</th>
+              <th className="py-3 text-right">Δ vs Strict</th>
             </tr>
           </thead>
           <tbody>
@@ -411,7 +411,7 @@ function WinnersTable() {
               const neg = s.proRataVsStrict < 0;
               return (
                 <tr key={s.state} className="border-t" style={{ borderColor: C.grid }}>
-                  <td className="py-2.5 pl-4 sm:pl-0 pr-3 font-medium" style={{ color: C.text }}>{s.state}</td>
+                  <td className="py-2.5 pr-3 font-medium" style={{ color: C.text }}>{s.state}</td>
                   <td className="py-2.5 pr-3">
                     <span
                       className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold"
@@ -427,7 +427,7 @@ function WinnersTable() {
                   <td className="py-2.5 pr-3 text-right font-mono tabular-nums" style={{ color: C.text }}>{s.proRataSeats}</td>
                   <td className="py-2.5 pr-3 text-right font-mono tabular-nums" style={{ color: C.text2 }}>{s.strictSeats}</td>
                   <td
-                    className="py-2.5 pr-4 sm:pr-0 text-right font-mono tabular-nums font-semibold"
+                    className="py-2.5 text-right font-mono tabular-nums font-semibold"
                     style={{ color: pos ? C.south : neg ? C.north : C.text2 }}
                   >
                     {pos ? "+" : ""}
@@ -466,7 +466,8 @@ function Scatter() {
 
   return (
     <ChartCard title="Population vs. Representation Under Pro-Rata Model">
-      <div className="relative w-full">
+      <div className="relative w-full overflow-x-auto -mx-1 px-1">
+        <div className="min-w-[340px]">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="w-full h-auto block"
@@ -559,7 +560,7 @@ function Scatter() {
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute top-2 right-2 sm:top-3 sm:right-3 max-w-[200px] rounded-xl p-3 text-xs shadow-lg pointer-events-none"
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 max-w-[180px] sm:max-w-[200px] rounded-xl p-3 text-xs shadow-lg pointer-events-none"
             style={{
               background: C.navy,
               color: "#fff",
@@ -584,6 +585,7 @@ function Scatter() {
             </div>
           </motion.div>
         )}
+        </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-3 sm:gap-4 text-[11px] sm:text-xs" style={{ color: C.text2 }}>
         <Legend color={C.south} label="South" />
@@ -604,7 +606,8 @@ function MajorityBar() {
   let cum = 0;
   return (
     <ChartCard title="The 409 Majority Mark — No Region Sweeps Alone">
-      <div className="relative h-12 rounded-full overflow-hidden" style={{ background: C.grid }}>
+      <div className="relative pt-8 pb-1">
+        <div className="relative h-12 rounded-full overflow-hidden" style={{ background: C.grid }}>
         {order.map((r, i) => {
           const v = regionSummary[r].proRataSeats;
           const left = (cum / total) * 100;
@@ -628,14 +631,15 @@ function MajorityBar() {
           className="absolute top-[-8px] bottom-[-8px] w-[2px]"
           style={{ left: `${majPct}%`, background: C.saffron, boxShadow: `0 0 14px ${C.saffron}` }}
         />
+        </div>
         <div
-          className="absolute -top-7 text-[11px] font-mono font-bold px-2 py-0.5 rounded"
-          style={{ left: `calc(${majPct}% - 30px)`, color: C.saffron, background: C.navy }}
+          className="relative text-[11px] font-mono font-bold px-2 py-0.5 rounded mt-1 inline-block"
+          style={{ marginLeft: `calc(${majPct}% - 30px)`, color: C.saffron, background: C.navy }}
         >
           409 majority
         </div>
       </div>
-      <p className="mt-8 text-sm" style={{ color: C.text2 }}>
+      <p className="mt-4 text-sm" style={{ color: C.text2 }}>
         Even in the 2019 landslide, NDA won only 352 of 543 (65%). A 65% sweep of 816 = 531 — still requiring nationwide appeal.
       </p>
     </ChartCard>
@@ -648,7 +652,7 @@ function FormulaImpact() {
   const losers = ["Bihar", "Uttar Pradesh", "Madhya Pradesh", "Rajasthan", "Assam"];
   return (
     <ChartCard title="If Seats Were Allocated by Economic / Demographic Formula">
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <h5 className="text-sm font-semibold mb-3 flex items-center gap-2" style={{ color: C.south }}>
             <TrendingUp className="h-4 w-4" /> States that GAIN under formula
@@ -760,7 +764,7 @@ function StateExplorer() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="grid md:grid-cols-2 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         <div>
           <div className="flex items-center gap-3 mb-4 flex-wrap">
@@ -913,7 +917,7 @@ function DelimitationPost() {
   };
 
   return (
-    <article style={{ background: C.alt, color: C.text }}>
+    <article className="overflow-x-hidden" style={{ background: C.alt, color: C.text }}>
       {/* Reading progress */}
       <div
         className="fixed top-0 left-0 h-1 z-[60] transition-[width] duration-150"
@@ -971,7 +975,7 @@ function DelimitationPost() {
               </span>
             </div>
             <h1
-              className="mt-5 sm:mt-6 font-display font-bold tracking-tight text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-blog-hero-title leading-[1.1] sm:leading-[1.05] break-words"
+              className="mt-5 sm:mt-6 font-display font-bold tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-blog-hero-title leading-[1.1] sm:leading-[1.05] break-words hyphens-auto"
             >
               816 Seats:{" "}
               <span
@@ -1026,7 +1030,7 @@ function DelimitationPost() {
       {/* BODY */}
       <div className="container mx-auto px-5 sm:px-6 max-w-7xl py-12 sm:py-16">
         <div className="grid xl:grid-cols-[1fr_240px] gap-8 sm:gap-10">
-          <main className="max-w-3xl mx-auto xl:mx-0 w-full">
+          <main className="max-w-3xl mx-auto xl:mx-0 w-full min-w-0">
 
             {/* SECTION 1 */}
             <Reveal>
@@ -1051,7 +1055,7 @@ function DelimitationPost() {
                 transparent, no committee, no formula. Every state gets exactly 1.5× what it has now —
                 no more, no less.
               </p>
-              <div className="mt-8 grid sm:grid-cols-3 gap-4">
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 min-w-0">
                 {[
                   { v: "543 → 816", l: "Total Lok Sabha seats" },
                   { v: "272 → 409", l: "Majority mark rises proportionally" },
@@ -1087,7 +1091,7 @@ function DelimitationPost() {
                 virtually identical to today's 23.76%. Under the Strict population model, South would drop
                 to <strong>20.83%</strong>. <em>That</em> is the key data point.
               </p>
-              <div className="not-prose my-8 grid md:grid-cols-3 gap-4">
+              <div className="not-prose my-8 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full min-w-0">
                 <ShareDonut title="Current — 543 seats" field="currentSeats" />
                 <ShareDonut title="Pro-Rata — 816 seats" field="proRataSeats" />
                 <ShareDonut title="If Strict Population" field="strictSeats" />
@@ -1133,7 +1137,7 @@ function DelimitationPost() {
                 one vote" — rewarding economic performance and penalizing fertility, effectively giving
                 cities and southern states disproportionate power.
               </p>
-              <div className="not-prose my-8 grid md:grid-cols-3 gap-4">
+              <div className="not-prose my-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
                   { icon: <Vote className="h-5 w-5" />, title: "Contradicts the core purpose", text: "Delimitation exists to ensure equal vote value, not to reward development policy." },
                   { icon: <Scale className="h-5 w-5" />, title: "Double punishment for the North", text: "High-TFR states already get fewer seats per capita under strict — formula makes it worse." },
