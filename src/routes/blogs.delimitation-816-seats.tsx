@@ -163,13 +163,13 @@ function SectionHeading({ kicker, children, id }: { kicker?: string; children: R
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
-      className="not-prose my-8 rounded-2xl p-5 md:p-7"
+      className="not-prose my-6 sm:my-8 rounded-2xl p-4 sm:p-5 md:p-7"
       style={{
         background: C.card,
         boxShadow: "0 8px 30px rgba(13,27,42,0.08), 0 2px 6px rgba(13,27,42,0.04)",
       }}
     >
-      <h4 className="font-display text-base md:text-lg font-bold mb-5" style={{ color: C.text }}>
+      <h4 className="font-display text-sm sm:text-base md:text-lg font-bold mb-4 sm:mb-5 break-words" style={{ color: C.text }}>
         {title}
       </h4>
       {children}
@@ -187,7 +187,7 @@ function Timeline() {
     { year: "2026", label: "THE UNFREEZE", sub: "816 seats proposed", pulse: true },
   ];
   return (
-    <div className="not-prose my-8 rounded-3xl p-6 md:p-10" style={{ background: C.navy }}>
+    <div className="not-prose my-8 rounded-3xl p-4 sm:p-6 md:p-10" style={{ background: C.navy }}>
       <div className="relative">
         {/* Horizontal connector — only on md+ where items are in a row */}
         <div
@@ -260,8 +260,8 @@ function ScenarioBars() {
               { v: r.proRataSeats, label: "Pro-Rata 50%", color: C.south },
               { v: r.strictSeats, label: "Strict Pop", color: C.north },
             ].map((b, i) => (
-              <div key={b.label} className="grid grid-cols-[110px_1fr_auto] items-center gap-3 text-xs mb-1.5">
-                <span style={{ color: C.text2 }}>{b.label}</span>
+              <div key={b.label} className="grid grid-cols-[80px_1fr_auto] sm:grid-cols-[110px_1fr_auto] items-center gap-2 sm:gap-3 text-[11px] sm:text-xs mb-1.5">
+                <span className="truncate" style={{ color: C.text2 }}>{b.label}</span>
                 <div className="h-2.5 rounded-full" style={{ background: C.grid }}>
                   <motion.div
                     initial={{ width: 0 }}
@@ -393,16 +393,16 @@ function WinnersTable() {
           </button>
         ))}
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className="-mx-4 sm:mx-0 overflow-x-auto">
+        <table className="w-full min-w-[560px] text-sm px-4 sm:px-0">
           <thead>
             <tr className="text-left text-xs uppercase tracking-wider" style={{ color: C.text2 }}>
-              <th className="py-3 pr-3">State</th>
+              <th className="py-3 pl-4 sm:pl-0 pr-3">State</th>
               <th className="py-3 pr-3">Region</th>
               <th className="py-3 pr-3 text-right">Current</th>
               <th className="py-3 pr-3 text-right">Pro-Rata</th>
               <th className="py-3 pr-3 text-right">Strict</th>
-              <th className="py-3 text-right">Δ vs Strict</th>
+              <th className="py-3 pr-4 sm:pr-0 text-right">Δ vs Strict</th>
             </tr>
           </thead>
           <tbody>
@@ -411,7 +411,7 @@ function WinnersTable() {
               const neg = s.proRataVsStrict < 0;
               return (
                 <tr key={s.state} className="border-t" style={{ borderColor: C.grid }}>
-                  <td className="py-2.5 pr-3 font-medium" style={{ color: C.text }}>{s.state}</td>
+                  <td className="py-2.5 pl-4 sm:pl-0 pr-3 font-medium" style={{ color: C.text }}>{s.state}</td>
                   <td className="py-2.5 pr-3">
                     <span
                       className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold"
@@ -427,7 +427,7 @@ function WinnersTable() {
                   <td className="py-2.5 pr-3 text-right font-mono tabular-nums" style={{ color: C.text }}>{s.proRataSeats}</td>
                   <td className="py-2.5 pr-3 text-right font-mono tabular-nums" style={{ color: C.text2 }}>{s.strictSeats}</td>
                   <td
-                    className="py-2.5 text-right font-mono tabular-nums font-semibold"
+                    className="py-2.5 pr-4 sm:pr-0 text-right font-mono tabular-nums font-semibold"
                     style={{ color: pos ? C.south : neg ? C.north : C.text2 }}
                   >
                     {pos ? "+" : ""}
@@ -445,12 +445,13 @@ function WinnersTable() {
 
 /* ---------------- BUBBLE / SCATTER ---------------- */
 function Scatter() {
-  const W = 680, H = 400, PAD_L = 60, PAD_B = 56, PAD_T = 30, PAD_R = 30;
+  const [hover, setHover] = useState<string | null>(null);
+  const W = 720, H = 440, PAD_L = 56, PAD_B = 56, PAD_T = 30, PAD_R = 30;
   const xs = stateData.map((s) => s.population / 1e6);
   const ys = stateData.map((s) => s.proRataSeats);
-  const xMax = Math.ceil(Math.max(...xs) / 25) * 25; // round to nearest 25M
-  const yMax = Math.ceil(Math.max(...ys) / 20) * 20; // round to nearest 20 seats
-  const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra"];
+  const xMax = Math.ceil(Math.max(...xs) / 25) * 25; // 200
+  const yMax = Math.ceil(Math.max(...ys) / 20) * 20; // 120
+  const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra", "West Bengal"];
 
   const xTicks = 5;
   const yTicks = 5;
@@ -459,10 +460,19 @@ function Scatter() {
   const xPos = (v: number) => PAD_L + (v / xMax) * plotW;
   const yPos = (v: number) => PAD_T + (1 - v / yMax) * plotH;
 
+  // Sort so smaller bubbles render on top of larger ones (so tiny states are clickable too)
+  const sorted = [...stateData].sort((a, b) => b.population - a.population);
+  const hoveredState = hover ? stateData.find((s) => s.state === hover) : null;
+
   return (
     <ChartCard title="Population vs. Representation Under Pro-Rata Model">
-      <div className="overflow-x-auto">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-[420px] min-w-[600px]">
+      <div className="relative w-full">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          className="w-full h-auto block"
+          preserveAspectRatio="xMidYMid meet"
+          onMouseLeave={() => setHover(null)}
+        >
           {/* horizontal grid + Y tick labels */}
           {Array.from({ length: yTicks + 1 }, (_, i) => {
             const v = (yMax / yTicks) * i;
@@ -496,21 +506,34 @@ function Scatter() {
             National avg ~1.48M / MP
           </text>
 
-          {stateData.map((s, i) => {
+          {sorted.map((s, i) => {
             const x = xPos(s.population / 1e6);
             const y = yPos(s.proRataSeats);
             const ppmp = s.population / s.currentSeats;
-            const r = Math.max(4, Math.min(18, ppmp / 200000));
+            const r = Math.max(5, Math.min(16, ppmp / 220000));
+            const isHover = hover === s.state;
             return (
               <motion.g
                 key={s.state}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.02, duration: 0.5 }}
-                style={{ transformOrigin: `${x}px ${y}px` }}
+                transition={{ delay: i * 0.015, duration: 0.45 }}
+                style={{ transformOrigin: `${x}px ${y}px`, cursor: "pointer" }}
+                onMouseEnter={() => setHover(s.state)}
+                onClick={() => setHover((h) => (h === s.state ? null : s.state))}
               >
-                <circle cx={x} cy={y} r={r} fill={regionColor(s.category)} fillOpacity={0.55} stroke={regionColor(s.category)} strokeWidth={1.2} />
+                {/* invisible hit target */}
+                <circle cx={x} cy={y} r={Math.max(r, 10)} fill="transparent" />
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={r}
+                  fill={regionColor(s.category)}
+                  fillOpacity={isHover ? 0.9 : 0.55}
+                  stroke={regionColor(s.category)}
+                  strokeWidth={isHover ? 2 : 1.2}
+                />
                 {labelStates.includes(s.state) && (
                   <text x={x + r + 4} y={y + 3} fontSize="10" style={{ fill: C.text }} fontWeight="600">
                     {s.state}
@@ -530,13 +553,44 @@ function Scatter() {
             Pro-Rata Seats
           </text>
         </svg>
+
+        {/* Tooltip panel (pinned, mobile-friendly) */}
+        {hoveredState && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 max-w-[200px] rounded-xl p-3 text-xs shadow-lg pointer-events-none"
+            style={{
+              background: C.navy,
+              color: "#fff",
+              border: `1px solid ${regionColor(hoveredState.category)}`,
+            }}
+          >
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="h-2 w-2 rounded-full" style={{ background: regionColor(hoveredState.category) }} />
+              <span className="font-bold text-sm">{hoveredState.state}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1 font-mono">
+              <span className="opacity-70">Pop</span>
+              <span className="text-right">{(hoveredState.population / 1e6).toFixed(1)}M</span>
+              <span className="opacity-70">Current</span>
+              <span className="text-right">{hoveredState.currentSeats}</span>
+              <span className="opacity-70">Pro-Rata</span>
+              <span className="text-right" style={{ color: C.saffron }}>{hoveredState.proRataSeats}</span>
+              <span className="opacity-70">Strict</span>
+              <span className="text-right">{hoveredState.strictSeats}</span>
+              <span className="opacity-70">Per MP</span>
+              <span className="text-right">{(hoveredState.population / hoveredState.currentSeats / 1e6).toFixed(2)}M</span>
+            </div>
+          </motion.div>
+        )}
       </div>
-      <div className="mt-4 flex flex-wrap gap-4 text-xs" style={{ color: C.text2 }}>
+      <div className="mt-4 flex flex-wrap gap-3 sm:gap-4 text-[11px] sm:text-xs" style={{ color: C.text2 }}>
         <Legend color={C.south} label="South" />
         <Legend color={C.north} label="North" />
         <Legend color={C.ne} label="North-East" />
         <Legend color={C.ut} label="UT" />
-        <span className="ml-2 italic">Bubble size ∝ people-per-MP today</span>
+        <span className="italic w-full sm:w-auto">Tap a bubble for details · Bubble size ∝ people-per-MP today</span>
       </div>
     </ChartCard>
   );
@@ -563,10 +617,10 @@ function MajorityBar() {
               whileInView={{ width: `${width}%` }}
               viewport={{ once: true }}
               transition={{ duration: 0.9, delay: i * 0.15 }}
-              className="absolute top-0 h-full flex items-center justify-center text-xs font-semibold text-white"
+              className="absolute top-0 h-full flex items-center justify-center text-[10px] sm:text-xs font-semibold text-white overflow-hidden"
               style={{ left: `${left}%`, background: regionColor(r) }}
             >
-              {v >= 30 ? `${r}: ${v}` : ""}
+              <span className="truncate px-1">{width >= 8 ? `${r}: ${v}` : ""}</span>
             </motion.div>
           );
         })}
@@ -688,12 +742,12 @@ function StateExplorer() {
   const max = Math.max(s.currentSeats, s.proRataSeats, s.strictSeats);
   return (
     <ChartCard title="Your State, Your Numbers — Explore the Data">
-      <div className="flex flex-wrap items-center gap-3 mb-6">
-        <label className="text-sm font-medium" style={{ color: C.text2 }}>Select state:</label>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
+        <label className="text-xs sm:text-sm font-medium" style={{ color: C.text2 }}>Select state:</label>
         <select
           value={sel}
           onChange={(e) => setSel(e.target.value)}
-          className="rounded-lg px-3 py-2 text-sm border focus:outline-none"
+          className="rounded-lg px-3 py-2 text-sm border focus:outline-none flex-1 sm:flex-none min-w-0 max-w-full"
           style={{ background: C.alt, color: C.text, borderColor: C.grid }}
         >
           {stateData.map((d) => (
@@ -709,8 +763,8 @@ function StateExplorer() {
         className="grid md:grid-cols-2 gap-6"
       >
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <h3 className="font-display text-2xl font-bold" style={{ color: C.text }}>{s.state}</h3>
+          <div className="flex items-center gap-3 mb-4 flex-wrap">
+            <h3 className="font-display text-xl sm:text-2xl font-bold break-words" style={{ color: C.text }}>{s.state}</h3>
             <span
               className="px-2.5 py-1 rounded-full text-[10px] font-semibold"
               style={{ background: regionColor(s.category) + "22", color: regionColor(s.category) }}
@@ -744,8 +798,8 @@ function StateExplorer() {
             { v: s.proRataSeats, label: "Pro-Rata 50%", color: C.south },
             { v: s.strictSeats, label: "Strict Pop", color: C.north },
           ].map((b) => (
-            <div key={b.label} className="grid grid-cols-[100px_1fr_auto] items-center gap-3 text-xs mb-2">
-              <span style={{ color: C.text2 }}>{b.label}</span>
+            <div key={b.label} className="grid grid-cols-[80px_1fr_auto] sm:grid-cols-[100px_1fr_auto] items-center gap-2 sm:gap-3 text-[11px] sm:text-xs mb-2">
+              <span className="truncate" style={{ color: C.text2 }}>{b.label}</span>
               <div className="h-3 rounded-full" style={{ background: C.grid }}>
                 <motion.div
                   key={sel + b.label}
