@@ -187,7 +187,7 @@ function Timeline() {
     { year: "2026", label: "THE UNFREEZE", sub: "816 seats proposed", pulse: true },
   ];
   return (
-    <div className="not-prose my-8 rounded-3xl p-6 md:p-10" style={{ background: C.navy }}>
+    <div className="not-prose my-8 rounded-3xl p-4 sm:p-6 md:p-10" style={{ background: C.navy }}>
       <div className="relative">
         {/* Horizontal connector — only on md+ where items are in a row */}
         <div
