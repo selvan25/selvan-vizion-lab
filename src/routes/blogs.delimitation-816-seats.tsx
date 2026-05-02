@@ -798,8 +798,8 @@ function StateExplorer() {
             { v: s.proRataSeats, label: "Pro-Rata 50%", color: C.south },
             { v: s.strictSeats, label: "Strict Pop", color: C.north },
           ].map((b) => (
-            <div key={b.label} className="grid grid-cols-[100px_1fr_auto] items-center gap-3 text-xs mb-2">
-              <span style={{ color: C.text2 }}>{b.label}</span>
+            <div key={b.label} className="grid grid-cols-[80px_1fr_auto] sm:grid-cols-[100px_1fr_auto] items-center gap-2 sm:gap-3 text-[11px] sm:text-xs mb-2">
+              <span className="truncate" style={{ color: C.text2 }}>{b.label}</span>
               <div className="h-3 rounded-full" style={{ background: C.grid }}>
                 <motion.div
                   key={sel + b.label}
