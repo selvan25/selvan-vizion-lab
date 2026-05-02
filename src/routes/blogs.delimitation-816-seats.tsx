@@ -742,12 +742,12 @@ function StateExplorer() {
   const max = Math.max(s.currentSeats, s.proRataSeats, s.strictSeats);
   return (
     <ChartCard title="Your State, Your Numbers — Explore the Data">
-      <div className="flex flex-wrap items-center gap-3 mb-6">
-        <label className="text-sm font-medium" style={{ color: C.text2 }}>Select state:</label>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
+        <label className="text-xs sm:text-sm font-medium" style={{ color: C.text2 }}>Select state:</label>
         <select
           value={sel}
           onChange={(e) => setSel(e.target.value)}
-          className="rounded-lg px-3 py-2 text-sm border focus:outline-none"
+          className="rounded-lg px-3 py-2 text-sm border focus:outline-none flex-1 sm:flex-none min-w-0 max-w-full"
           style={{ background: C.alt, color: C.text, borderColor: C.grid }}
         >
           {stateData.map((d) => (
