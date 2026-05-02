@@ -393,16 +393,16 @@ function WinnersTable() {
           </button>
         ))}
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className="-mx-4 sm:mx-0 overflow-x-auto">
+        <table className="w-full min-w-[560px] text-sm px-4 sm:px-0">
           <thead>
             <tr className="text-left text-xs uppercase tracking-wider" style={{ color: C.text2 }}>
-              <th className="py-3 pr-3">State</th>
+              <th className="py-3 pl-4 sm:pl-0 pr-3">State</th>
               <th className="py-3 pr-3">Region</th>
               <th className="py-3 pr-3 text-right">Current</th>
               <th className="py-3 pr-3 text-right">Pro-Rata</th>
               <th className="py-3 pr-3 text-right">Strict</th>
-              <th className="py-3 text-right">Δ vs Strict</th>
+              <th className="py-3 pr-4 sm:pr-0 text-right">Δ vs Strict</th>
             </tr>
           </thead>
           <tbody>
@@ -411,7 +411,7 @@ function WinnersTable() {
               const neg = s.proRataVsStrict < 0;
               return (
                 <tr key={s.state} className="border-t" style={{ borderColor: C.grid }}>
-                  <td className="py-2.5 pr-3 font-medium" style={{ color: C.text }}>{s.state}</td>
+                  <td className="py-2.5 pl-4 sm:pl-0 pr-3 font-medium" style={{ color: C.text }}>{s.state}</td>
                   <td className="py-2.5 pr-3">
                     <span
                       className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold"
@@ -427,7 +427,7 @@ function WinnersTable() {
                   <td className="py-2.5 pr-3 text-right font-mono tabular-nums" style={{ color: C.text }}>{s.proRataSeats}</td>
                   <td className="py-2.5 pr-3 text-right font-mono tabular-nums" style={{ color: C.text2 }}>{s.strictSeats}</td>
                   <td
-                    className="py-2.5 text-right font-mono tabular-nums font-semibold"
+                    className="py-2.5 pr-4 sm:pr-0 text-right font-mono tabular-nums font-semibold"
                     style={{ color: pos ? C.south : neg ? C.north : C.text2 }}
                   >
                     {pos ? "+" : ""}
