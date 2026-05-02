@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Clock,
@@ -144,55 +144,44 @@ function TurnoutBars() {
     { year: "2021", value: 73.6, color: C.blue },
     { year: "2026", value: 85.15, color: C.green },
   ];
-  const [hover, setHover] = useState<number | null>(null);
+  const maxVal = 100;
   return (
     <ChartCard title="Voter turnout: 2021 vs 2026" subtitle="Tamil Nadu Assembly Elections">
-      <div className="flex items-end justify-around gap-6 sm:gap-12 h-56 sm:h-72 px-2 sm:px-6">
+      <div className="flex items-end justify-center gap-8 sm:gap-16 px-4 sm:px-12" style={{ height: "240px" }}>
         {data.map((d, i) => {
-          const h = (d.value / 100) * 100;
+          const heightPct = (d.value / maxVal) * 100;
           return (
-            <div
-              key={d.year}
-              className="flex-1 flex flex-col items-center gap-2 relative"
-              onMouseEnter={() => setHover(i)}
-              onMouseLeave={() => setHover(null)}
-              onTouchStart={() => setHover(i)}
-            >
-              <AnimatePresence>
-                {hover === i && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute -top-2 z-10 rounded-lg px-3 py-1.5 text-[11px] sm:text-xs font-medium whitespace-nowrap shadow-lg"
-                    style={{ background: C.text, color: "var(--background)" }}
-                  >
-                    Turnout: {d.value}%
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <motion.div
-                initial={{ height: 0 }}
-                whileInView={{ height: `${h}%` }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.1, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full max-w-[90px] sm:max-w-[120px] rounded-t-xl relative"
-                style={{
-                  background: `linear-gradient(180deg, ${d.color}, ${d.color}99)`,
-                  boxShadow: `0 0 24px ${d.color}55`,
-                }}
-              >
+            <div key={d.year} className="flex flex-col items-center gap-3 flex-1 max-w-[140px]" style={{ height: "100%", justifyContent: "flex-end" }}>
+              <div className="w-full flex flex-col items-center" style={{ height: `${heightPct}%`, position: "relative" }}>
+                {/* value label above bar */}
                 <span
-                  className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs sm:text-sm font-bold font-mono"
+                  className="text-lg sm:text-2xl font-bold font-mono mb-2"
                   style={{ color: d.color }}
                 >
                   {d.value}%
                 </span>
-              </motion.div>
-              <div className="text-xs sm:text-sm font-semibold" style={{ color: C.text }}>{d.year}</div>
+                {/* bar */}
+                <motion.div
+                  initial={{ height: 0 }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.1, delay: i * 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full rounded-t-2xl"
+                  style={{
+                    background: `linear-gradient(180deg, ${d.color}, ${d.color}88)`,
+                    boxShadow: `0 0 32px ${d.color}55`,
+                    minHeight: "4px",
+                  }}
+                />
+              </div>
+              <div className="text-sm sm:text-base font-bold" style={{ color: C.text }}>{d.year}</div>
             </div>
           );
         })}
+      </div>
+      {/* delta callout */}
+      <div className="mt-5 rounded-xl p-3 text-center text-sm font-medium" style={{ background: C.alt, color: C.text }}>
+        <span style={{ color: C.green }}>+11.55 percentage points</span> increase from 2021 to 2026
       </div>
     </ChartCard>
   );
@@ -209,54 +198,53 @@ function VotedStack({
   data: { year: string; voted: number; notVoted: number; unit: string }[];
 }) {
   const [hover, setHover] = useState<{ row: number; key: "voted" | "not" } | null>(null);
-  const max = Math.max(...data.map((d) => d.voted + d.notVoted));
   return (
     <ChartCard title={title} subtitle={subtitle}>
       <div className="space-y-5 sm:space-y-6">
         {data.map((d, i) => {
-          const total = d.voted + d.notVoted;
-          const vPct = (d.voted / total) * 100;
-          const nPct = (d.notVoted / total) * 100;
-          const widthPct = (total / max) * 100;
+          const total = Math.round((d.voted + d.notVoted) * 100) / 100;
+          const vPct = (d.voted / (d.voted + d.notVoted)) * 100;
+          const nPct = 100 - vPct;
           return (
             <div key={d.year}>
               <div className="flex items-center justify-between mb-2 text-xs sm:text-sm">
                 <span className="font-semibold" style={{ color: C.text }}>{d.year}</span>
                 <span style={{ color: C.text2 }}>Total: {total} {d.unit}</span>
               </div>
-              <div className="relative h-9 sm:h-11 rounded-xl overflow-hidden" style={{ background: C.alt, width: `${widthPct}%` }}>
+              {/* Full-width bar — both segments always visible */}
+              <div className="relative h-10 sm:h-12 rounded-xl overflow-hidden w-full" style={{ background: C.alt }}>
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: `${vPct}%` }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: i * 0.12 }}
                   className="absolute inset-y-0 left-0 flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white cursor-pointer"
-                  style={{ background: `linear-gradient(90deg, ${C.blue}, ${C.blue}cc)` }}
+                  style={{ background: `linear-gradient(90deg, ${C.blue}, ${C.blue}cc)`, minWidth: "60px" }}
                   onMouseEnter={() => setHover({ row: i, key: "voted" })}
                   onMouseLeave={() => setHover(null)}
-                  onTouchStart={() => setHover({ row: i, key: "voted" })}
+                  onTouchStart={() => setHover(i === hover?.row && hover?.key === "voted" ? null : { row: i, key: "voted" })}
                 >
-                  {vPct > 18 && <span className="px-2 truncate">Voted {d.voted}</span>}
+                  <span className="px-2 truncate">Voted {d.voted}</span>
                 </motion.div>
                 <motion.div
-                  initial={{ width: 0 }}
+                  initial={{ width: "100%" }}
                   whileInView={{ width: `${nPct}%` }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: 0.4 + i * 0.12 }}
-                  className="absolute inset-y-0 flex items-center justify-center text-[11px] sm:text-xs font-semibold cursor-pointer"
-                  style={{ left: `${vPct}%`, background: C.gray, color: "white" }}
+                  className="absolute inset-y-0 right-0 flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white cursor-pointer"
+                  style={{ background: C.gray, minWidth: "60px" }}
                   onMouseEnter={() => setHover({ row: i, key: "not" })}
                   onMouseLeave={() => setHover(null)}
-                  onTouchStart={() => setHover({ row: i, key: "not" })}
+                  onTouchStart={() => setHover(i === hover?.row && hover?.key === "not" ? null : { row: i, key: "not" })}
                 >
-                  {nPct > 12 && <span className="px-2 truncate">Did not {d.notVoted}</span>}
+                  <span className="px-2 truncate">Did not {d.notVoted}</span>
                 </motion.div>
               </div>
-              {hover?.row === i && (
-                <div className="mt-2 text-[11px] sm:text-xs" style={{ color: C.text2 }}>
-                  {hover.key === "voted" ? `Voted: ${d.voted} ${d.unit} (${vPct.toFixed(1)}%)` : `Did not vote: ${d.notVoted} ${d.unit} (${nPct.toFixed(1)}%)`}
-                </div>
-              )}
+              {/* Always-visible stats below bar on mobile */}
+              <div className="mt-2 flex justify-between text-[11px] sm:text-xs" style={{ color: C.text2 }}>
+                <span style={{ color: C.blue }}>Voted: {d.voted} {d.unit} ({vPct.toFixed(1)}%)</span>
+                <span style={{ color: C.gray }}>Did not: {d.notVoted} {d.unit} ({nPct.toFixed(1)}%)</span>
+              </div>
             </div>
           );
         })}
@@ -405,28 +393,38 @@ function BoothSlider() {
   const TOTAL_VOTES = 4.88e7;
   const [v, setV] = useState(150);
   const tvkVotes = v * TOTAL_BOOTHS;
-  const share = (tvkVotes / TOTAL_VOTES) * 100;
+  const tvkShare = (tvkVotes / TOTAL_VOTES) * 100;
+
+  // Dynamic vote share distribution across parties
+  // As TVK grows, it pulls proportionally from DMK (-55%), ADMK (-30%), Others (-15%)
+  const baseDMK = 38.0, baseADMK = 20.0, baseOthers = 4.0;
+  const baselineShare = (150 * TOTAL_BOOTHS / TOTAL_VOTES) * 100; // ~23.1% baseline
+  const delta = tvkShare - baselineShare;
+  const dmkShare = Math.max(5, baseDMK - delta * 0.55);
+  const admkShare = Math.max(3, baseADMK - delta * 0.30);
+  const othersShare = Math.max(1, baseOthers - delta * 0.15);
+
+  const bars = [
+    { label: "DMK Alliance", share: dmkShare, color: C.blue },
+    { label: "ADMK Alliance", share: admkShare, color: C.orange },
+    { label: "TVK", share: tvkShare, color: C.purple },
+    { label: "Others", share: othersShare, color: C.gray },
+  ];
+  const maxShare = Math.max(...bars.map((b) => b.share));
+
   const fmt = (n: number) => {
     if (n >= 1e7) return `${(n / 1e7).toFixed(2)} crore`;
     return `${(n / 1e5).toFixed(0)} lakh`;
   };
+
   return (
     <ChartCard title="Estimate TVK's vote share" subtitle="Slide to set the average TVK votes per booth (75,026 booths statewide)">
       <div className="space-y-5">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-xl p-3 sm:p-4 text-center" style={{ background: C.alt }}>
-            <div className="text-[10px] sm:text-xs uppercase tracking-wider" style={{ color: C.text2 }}>Total TVK votes</div>
-            <div className="mt-1 font-display text-xl sm:text-2xl font-bold" style={{ color: C.purple }}>{fmt(tvkVotes)}</div>
-          </div>
-          <div className="rounded-xl p-3 sm:p-4 text-center" style={{ background: C.alt }}>
-            <div className="text-[10px] sm:text-xs uppercase tracking-wider" style={{ color: C.text2 }}>Vote share</div>
-            <div className="mt-1 font-display text-xl sm:text-2xl font-bold" style={{ color: C.green }}>{share.toFixed(1)}%</div>
-          </div>
-        </div>
+        {/* Slider */}
         <div>
           <div className="flex items-center justify-between mb-2 text-xs sm:text-sm">
-            <span style={{ color: C.text2 }}>Avg votes/booth</span>
-            <span className="font-mono font-bold" style={{ color: C.text }}>{v}</span>
+            <span style={{ color: C.text2 }}>TVK votes per booth</span>
+            <span className="font-mono font-bold text-base" style={{ color: C.purple }}>{v}</span>
           </div>
           <input
             type="range"
@@ -435,47 +433,53 @@ function BoothSlider() {
             step={5}
             value={v}
             onChange={(e) => setV(+e.target.value)}
-            className="w-full accent-current"
+            className="w-full"
             style={{ accentColor: C.purple }}
           />
           <div className="mt-1 flex justify-between text-[10px]" style={{ color: C.text2 }}>
-            <span>50</span>
-            <span>175</span>
-            <span>300</span>
+            <span>50</span><span>175</span><span>300</span>
           </div>
         </div>
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
-          <table className="min-w-full text-xs sm:text-sm">
-            <thead>
-              <tr style={{ color: C.text2 }} className="text-left">
-                <th className="px-4 sm:px-2 py-2 font-medium">Avg/booth</th>
-                <th className="py-2 font-medium">Total votes</th>
-                <th className="py-2 font-medium text-right pr-4 sm:pr-2">Share</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[100, 150, 175, 200].map((row) => {
-                const tv = row * TOTAL_BOOTHS;
-                const sh = (tv / TOTAL_VOTES) * 100;
-                const active = Math.abs(row - v) < 5;
-                return (
-                  <tr
-                    key={row}
-                    style={{
-                      background: active ? C.alt : "transparent",
-                      color: C.text,
-                    }}
-                    className="border-t"
-                  >
-                    <td className="px-4 sm:px-2 py-2 font-mono">{row}</td>
-                    <td className="py-2">{fmt(tv)}</td>
-                    <td className="py-2 text-right pr-4 sm:pr-2 font-mono font-semibold">{sh.toFixed(1)}%</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+
+        {/* Key stats */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-xl p-3 sm:p-4 text-center" style={{ background: C.alt }}>
+            <div className="text-[10px] sm:text-xs uppercase tracking-wider mb-1" style={{ color: C.text2 }}>Estimated TVK total votes</div>
+            <div className="font-display text-lg sm:text-2xl font-bold" style={{ color: C.purple }}>{fmt(tvkVotes)}</div>
+          </div>
+          <div className="rounded-xl p-3 sm:p-4 text-center" style={{ background: C.alt }}>
+            <div className="text-[10px] sm:text-xs uppercase tracking-wider mb-1" style={{ color: C.text2 }}>Vote share →</div>
+            <div className="font-display text-lg sm:text-2xl font-bold" style={{ color: C.green }}>{tvkShare.toFixed(1)}%</div>
+          </div>
         </div>
+
+        {/* Dynamic bar chart */}
+        <div className="space-y-3">
+          {bars.map((b) => (
+            <div key={b.label}>
+              <div className="flex items-center justify-between mb-1 text-xs sm:text-sm">
+                <span className="font-medium" style={{ color: C.text }}>{b.label}</span>
+                <span className="font-mono font-bold" style={{ color: b.color }}>{b.share.toFixed(1)}%</span>
+              </div>
+              <div className="h-7 sm:h-9 rounded-lg overflow-hidden" style={{ background: C.alt }}>
+                <motion.div
+                  animate={{ width: `${(b.share / maxShare) * 100}%` }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="h-full rounded-lg flex items-center px-3 text-[11px] sm:text-xs font-semibold text-white"
+                  style={{
+                    background: `linear-gradient(90deg, ${b.color}, ${b.color}bb)`,
+                    boxShadow: b.label === "TVK" ? `0 0 12px ${b.color}66` : "none",
+                  }}
+                >
+                  {b.share > 8 ? `${b.share.toFixed(1)}%` : ""}
+                </motion.div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-[11px] sm:text-xs italic" style={{ color: C.text2 }}>
+          * Redistribution is approximate — TVK votes modelled as drawn proportionally from DMK (55%), ADMK (30%), and Others (15%).
+        </p>
       </div>
     </ChartCard>
   );
@@ -763,7 +767,6 @@ function TN2026Post() {
             This is the most common objection. And on the surface, it sounds logical. Remove voters from the denominator, the percentage goes up. Simple math. But let's look at what SIR actually deleted — because not all deletions are equal.
           </P>
           <P>Out of the 97.3 lakh voters deleted statewide:</P>
-          <SIRTable />
           <SIRDonut />
           <P>
             Now here is the key question: <strong>were the shifted/absent voters "fake"?</strong> No. Shifted or absent voters are real people — migrants, IT professionals, tenants, people who moved cities. They were genuinely registered in 2021 and could have voted then. They were removed in 2026 because they were no longer at that address. Removing them was the right call for clean rolls — but it does not mean they were ghost voters inflating the 2021 count.
