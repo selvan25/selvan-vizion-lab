@@ -163,13 +163,13 @@ function SectionHeading({ kicker, children, id }: { kicker?: string; children: R
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
-      className="not-prose my-8 rounded-2xl p-5 md:p-7"
+      className="not-prose my-6 sm:my-8 rounded-2xl p-4 sm:p-5 md:p-7"
       style={{
         background: C.card,
         boxShadow: "0 8px 30px rgba(13,27,42,0.08), 0 2px 6px rgba(13,27,42,0.04)",
       }}
     >
-      <h4 className="font-display text-base md:text-lg font-bold mb-5" style={{ color: C.text }}>
+      <h4 className="font-display text-sm sm:text-base md:text-lg font-bold mb-4 sm:mb-5 break-words" style={{ color: C.text }}>
         {title}
       </h4>
       {children}
