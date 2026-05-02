@@ -445,12 +445,13 @@ function WinnersTable() {
 
 /* ---------------- BUBBLE / SCATTER ---------------- */
 function Scatter() {
-  const W = 680, H = 400, PAD_L = 60, PAD_B = 56, PAD_T = 30, PAD_R = 30;
+  const [hover, setHover] = useState<string | null>(null);
+  const W = 720, H = 440, PAD_L = 56, PAD_B = 56, PAD_T = 30, PAD_R = 30;
   const xs = stateData.map((s) => s.population / 1e6);
   const ys = stateData.map((s) => s.proRataSeats);
-  const xMax = Math.ceil(Math.max(...xs) / 25) * 25; // round to nearest 25M
-  const yMax = Math.ceil(Math.max(...ys) / 20) * 20; // round to nearest 20 seats
-  const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra"];
+  const xMax = Math.ceil(Math.max(...xs) / 25) * 25; // 200
+  const yMax = Math.ceil(Math.max(...ys) / 20) * 20; // 120
+  const labelStates = ["Tamil Nadu", "Kerala", "Uttar Pradesh", "Bihar", "Karnataka", "Maharashtra", "West Bengal"];
 
   const xTicks = 5;
   const yTicks = 5;
@@ -459,10 +460,19 @@ function Scatter() {
   const xPos = (v: number) => PAD_L + (v / xMax) * plotW;
   const yPos = (v: number) => PAD_T + (1 - v / yMax) * plotH;
 
+  // Sort so smaller bubbles render on top of larger ones (so tiny states are clickable too)
+  const sorted = [...stateData].sort((a, b) => b.population - a.population);
+  const hoveredState = hover ? stateData.find((s) => s.state === hover) : null;
+
   return (
     <ChartCard title="Population vs. Representation Under Pro-Rata Model">
-      <div className="overflow-x-auto">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-[420px] min-w-[600px]">
+      <div className="relative w-full">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          className="w-full h-auto block"
+          preserveAspectRatio="xMidYMid meet"
+          onMouseLeave={() => setHover(null)}
+        >
           {/* horizontal grid + Y tick labels */}
           {Array.from({ length: yTicks + 1 }, (_, i) => {
             const v = (yMax / yTicks) * i;
@@ -496,21 +506,34 @@ function Scatter() {
             National avg ~1.48M / MP
           </text>
 
-          {stateData.map((s, i) => {
+          {sorted.map((s, i) => {
             const x = xPos(s.population / 1e6);
             const y = yPos(s.proRataSeats);
             const ppmp = s.population / s.currentSeats;
-            const r = Math.max(4, Math.min(18, ppmp / 200000));
+            const r = Math.max(5, Math.min(16, ppmp / 220000));
+            const isHover = hover === s.state;
             return (
               <motion.g
                 key={s.state}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.02, duration: 0.5 }}
-                style={{ transformOrigin: `${x}px ${y}px` }}
+                transition={{ delay: i * 0.015, duration: 0.45 }}
+                style={{ transformOrigin: `${x}px ${y}px`, cursor: "pointer" }}
+                onMouseEnter={() => setHover(s.state)}
+                onClick={() => setHover((h) => (h === s.state ? null : s.state))}
               >
-                <circle cx={x} cy={y} r={r} fill={regionColor(s.category)} fillOpacity={0.55} stroke={regionColor(s.category)} strokeWidth={1.2} />
+                {/* invisible hit target */}
+                <circle cx={x} cy={y} r={Math.max(r, 10)} fill="transparent" />
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={r}
+                  fill={regionColor(s.category)}
+                  fillOpacity={isHover ? 0.9 : 0.55}
+                  stroke={regionColor(s.category)}
+                  strokeWidth={isHover ? 2 : 1.2}
+                />
                 {labelStates.includes(s.state) && (
                   <text x={x + r + 4} y={y + 3} fontSize="10" style={{ fill: C.text }} fontWeight="600">
                     {s.state}
@@ -530,13 +553,44 @@ function Scatter() {
             Pro-Rata Seats
           </text>
         </svg>
+
+        {/* Tooltip panel (pinned, mobile-friendly) */}
+        {hoveredState && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 max-w-[200px] rounded-xl p-3 text-xs shadow-lg pointer-events-none"
+            style={{
+              background: C.navy,
+              color: "#fff",
+              border: `1px solid ${regionColor(hoveredState.category)}`,
+            }}
+          >
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="h-2 w-2 rounded-full" style={{ background: regionColor(hoveredState.category) }} />
+              <span className="font-bold text-sm">{hoveredState.state}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1 font-mono">
+              <span className="opacity-70">Pop</span>
+              <span className="text-right">{(hoveredState.population / 1e6).toFixed(1)}M</span>
+              <span className="opacity-70">Current</span>
+              <span className="text-right">{hoveredState.currentSeats}</span>
+              <span className="opacity-70">Pro-Rata</span>
+              <span className="text-right" style={{ color: C.saffron }}>{hoveredState.proRataSeats}</span>
+              <span className="opacity-70">Strict</span>
+              <span className="text-right">{hoveredState.strictSeats}</span>
+              <span className="opacity-70">Per MP</span>
+              <span className="text-right">{(hoveredState.population / hoveredState.currentSeats / 1e6).toFixed(2)}M</span>
+            </div>
+          </motion.div>
+        )}
       </div>
-      <div className="mt-4 flex flex-wrap gap-4 text-xs" style={{ color: C.text2 }}>
+      <div className="mt-4 flex flex-wrap gap-3 sm:gap-4 text-[11px] sm:text-xs" style={{ color: C.text2 }}>
         <Legend color={C.south} label="South" />
         <Legend color={C.north} label="North" />
         <Legend color={C.ne} label="North-East" />
         <Legend color={C.ut} label="UT" />
-        <span className="ml-2 italic">Bubble size ∝ people-per-MP today</span>
+        <span className="italic w-full sm:w-auto">Tap a bubble for details · Bubble size ∝ people-per-MP today</span>
       </div>
     </ChartCard>
   );
