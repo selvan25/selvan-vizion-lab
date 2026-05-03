@@ -27,6 +27,8 @@ interface Props {
 }
 
 export function BlogEngagement({ slug, pageUrl, title, coverImageUrl }: Props) {
+  const API = "https://selvan-blog-api.selvanrajan143.workers.dev";
+
   const [stats, setStats] = useState<Stats>({ views: 0, likes: 0, comments: 0 });
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -45,12 +47,12 @@ export function BlogEngagement({ slug, pageUrl, title, coverImageUrl }: Props) {
     const hasLiked = localStorage.getItem(`liked:${slug}`) === "1";
     setLiked(hasLiked);
 
-    fetch(`/api/stats?slug=${slug}`)
+    fetch(`${API}/stats?slug=${slug}`)
       .then((r) => r.json())
       .then((data: Stats) => setStats(data))
       .catch(() => {});
 
-    fetch(`/api/view?slug=${slug}`, { method: "POST" }).catch(() => {});
+    fetch(`${API}/view?slug=${slug}`, { method: "POST" }).catch(() => {});
   }, [slug]);
 
   // ── Like handler ─────────────────────────────────────────────
@@ -60,7 +62,7 @@ export function BlogEngagement({ slug, pageUrl, title, coverImageUrl }: Props) {
     localStorage.setItem(`liked:${slug}`, "1");
     setStats((s) => ({ ...s, likes: s.likes + 1 }));
     try {
-      const res = await fetch(`/api/like?slug=${slug}`, { method: "POST" });
+      const res = await fetch(`${API}/like?slug=${slug}`, { method: "POST" });
       const data = await res.json() as { likes: number };
       setStats((s) => ({ ...s, likes: data.likes }));
     } catch {
@@ -71,7 +73,7 @@ export function BlogEngagement({ slug, pageUrl, title, coverImageUrl }: Props) {
   // ── Comments ─────────────────────────────────────────────────
   const loadComments = async () => {
     try {
-      const res = await fetch(`/api/comments?slug=${slug}`);
+      const res = await fetch(`${API}/comments?slug=${slug}`);
       const data = await res.json() as Comment[];
       setComments(data);
       setShowComments(true);
@@ -92,7 +94,7 @@ export function BlogEngagement({ slug, pageUrl, title, coverImageUrl }: Props) {
     if (!content.trim() || submitting) return;
     setSubmitting(true);
     try {
-      await fetch(`/api/comments?slug=${slug}`, {
+      await fetch(`${API}/comments?slug=${slug}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ author: author.trim() || "Anonymous", content: content.trim() }),
