@@ -15,6 +15,7 @@ import {
   Quote,
 } from "lucide-react";
 import cover from "@/assets/blog-tn2026.jpg";
+import { BlogEngagement } from "@/components/BlogEngagement";
 
 export const Route = createFileRoute("/blogs/tn-2026-voter-participation")({
   head: () => ({
@@ -900,6 +901,7 @@ function TN2026Post() {
           </Link>
         </div>
       </div>
+      <BlogEngagement slug="tn-2026-voter-participation" />
     </article>
   );
 }
