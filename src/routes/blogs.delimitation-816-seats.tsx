@@ -1373,7 +1373,7 @@ function DelimitationPost() {
                 </button>
               </div>
             </div>
-            <BlogEngagement slug="delimitation-816-seats" />  
+            <BlogEngagement slug="delimitation-816-seats" />
           </main>
 
           <aside>
