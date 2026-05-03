@@ -65,6 +65,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <ScriptOnce>{themeBootScript}</ScriptOnce>
         {children}
         <Scripts />
+        {/* Cloudflare Web Analytics — paste your token from the Cloudflare dashboard */}
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "1e28c3550be84d74b71a25812a5d0049"}'
+        />
       </body>
     </html>
   );
