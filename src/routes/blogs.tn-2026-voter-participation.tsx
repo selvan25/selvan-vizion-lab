@@ -900,8 +900,8 @@ function TN2026Post() {
             <ArrowLeft className="h-4 w-4" /> More articles
           </Link>
         </div>
+        <BlogEngagement slug="tn-2026-voter-participation" />
       </div>
-      <BlogEngagement slug="tn-2026-voter-participation" />
     </article>
   );
 }
