@@ -18,6 +18,7 @@ import {
   Scale,
 } from "lucide-react";
 import deliCover from "@/assets/blog-delimitation.jpg";
+import { BlogEngagement } from "@/components/BlogEngagement";
 
 export const Route = createFileRoute("/blogs/delimitation-816-seats")({
   head: () => ({
@@ -1379,6 +1380,7 @@ function DelimitationPost() {
           </aside>
         </div>
       </div>
+    <BlogEngagement slug="delimitation-816-seats" />  
     </article>
   );
 }
