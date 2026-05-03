@@ -28,21 +28,34 @@ function Contact() {
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
 
   const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const parsed = schema.safeParse(form);
-    if (!parsed.success) {
-      const errs: Record<string, string> = {};
-      parsed.error.issues.forEach((i) => (errs[i.path[0] as string] = i.message));
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    setState("sending");
-    await new Promise((r) => setTimeout(r, 1100));
+  e.preventDefault();
+  const parsed = schema.safeParse(form);
+  if (!parsed.success) {
+    const errs: Record<string, string> = {};
+    parsed.error.issues.forEach((i) => (errs[i.path[0] as string] = i.message));
+    setErrors(errs);
+    return;
+  }
+  setErrors({});
+  setState("sending");
+  try {
+    const res = await fetch(
+      "https://selvan-contact-api.selvanrajan143.workers.dev",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      }
+    );
+    if (!res.ok) throw new Error("Send failed");
     setState("sent");
     setForm({ name: "", email: "", message: "" });
     setTimeout(() => setState("idle"), 3500);
-  };
+  } catch {
+    setState("idle");
+    setErrors({ message: "Something went wrong. Please try emailing me directly." });
+  }
+};
 
   return (
     <div className="pt-32 pb-20 bg-hero min-h-screen">
