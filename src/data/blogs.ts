@@ -50,7 +50,7 @@ export const blogs: Blog[] = [
     description:
       "Ronaldo conquered four countries; Messi mastered one kingdom. A data-backed case for why the greatness that traveled the world makes Cristiano Ronaldo football's true GOAT.",
     category: "Football",
-    readTime: "10 min read",
+    readTime: "13 min read",
     date: "June 12, 2026",
     cover: ronaldoMessi,
     tags: ["Ronaldo", "Messi", "GOAT Debate", "Football", "Data Analysis"],
@@ -249,7 +249,7 @@ export const blogs: Blog[] = [
     title: "Excel Automation With VBA: From 4 Hours to 4 Minutes",
     description: "A practical walkthrough of the VBA patterns that quietly run finance teams — events, dictionaries, and the ‘invisible script’ philosophy.",
     category: "Automation",
-    readTime: "10 min read",
+    readTime: "13 min read",
     date: "March 30, 2026",
     cover: excelVba,
     tags: ["Excel", "VBA", "Automation", "Productivity"],
