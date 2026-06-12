@@ -12,6 +12,7 @@ import kpi from "@/assets/blog-kpi.jpg";
 import career from "@/assets/blog-career.jpg";
 import delimitation from "@/assets/blog-delimitation.jpg";
 import tn2026 from "@/assets/blog-tn2026.jpg";
+import ronaldoMessi from "@/assets/blog-ronaldo-messi.png";
 
 export type ChartPoint = { label: string; value: number };
 
@@ -43,6 +44,17 @@ export type Blog = {
 };
 
 export const blogs: Blog[] = [
+  {
+    slug: "ronaldo-vs-messi-goat",
+    title: "The Nomad and the Native: Why Ronaldo Is the GOAT",
+    description:
+      "Ronaldo conquered four countries; Messi mastered one kingdom. A data-backed case for why the greatness that traveled the world makes Cristiano Ronaldo football's true GOAT.",
+    category: "Football",
+    readTime: "10 min read",
+    date: "June 12, 2026",
+    cover: ronaldoMessi,
+    tags: ["Ronaldo", "Messi", "GOAT Debate", "Football", "Data Analysis"],
+  },
   {
     slug: "tn-2026-voter-participation",
     title: "The 85% Question: Did Tamil Nadu Really Vote More, or Did the Numbers Just Get Smaller?",
