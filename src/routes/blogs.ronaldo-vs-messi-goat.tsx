@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ArrowLeft,
   Clock,
@@ -257,8 +257,8 @@ function HonorsTable() {
     { honor: "FIFA World Cup", messi: "1", cr7: "0", edge: "messi" },
     { honor: "Top-scorer leagues (countries)", messi: "1", cr7: "4", edge: "cr7" },
     { honor: "UCL knockout goals", messi: "49", cr7: "67", edge: "cr7" },
-    { honor: "Int'l goals (world record)", messi: "—", cr7: "143", edge: "cr7" },
-    { honor: "Consecutive World Cups scored", messi: "—", cr7: "5", edge: "cr7" },
+    { honor: "Int'l goals", messi: "117", cr7: "143", edge: "cr7" },
+    { honor: "Consecutive World Cups scored", messi: "3", cr7: "5", edge: "cr7" },
   ];
   return (
     <ChartCard title="Head to head: the honors that matter" subtitle="Same legends, very different shapes of greatness">
@@ -298,31 +298,22 @@ function HonorsTable() {
 }
 
 /* ---------------- TROPHY SPREAD BARS ---------------- */
-function TrophySpread() {
-  const messi = [
-    { label: "Barcelona", value: 35, color: C.messi },
-    { label: "Argentina / PSG / Miami", value: 13, color: `${C.messi}99` },
-  ];
-  const cr7 = [
-    { label: "England", value: 6, color: C.cr7 },
-    { label: "Spain", value: 15, color: C.gold },
-    { label: "Italy", value: 5, color: C.green },
-    { label: "Portugal", value: 9, color: C.purple },
-  ];
-  const Bar = ({ rows, total, who, whoColor }: { rows: typeof messi; total: number; who: string; whoColor: string }) => (
-    <div>
+function TrophyBar({ rows, total, who, whoColor }: { rows: { label: string; value: number; color: string }[]; total: number; who: string; whoColor: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <div ref={ref}>
       <div className="flex items-center justify-between mb-2">
         <span className="font-bold text-sm" style={{ color: whoColor }}>{who}</span>
         <span className="text-xs font-mono" style={{ color: C.text2 }}>{total} total</span>
       </div>
       <div className="flex h-9 w-full rounded-xl overflow-hidden" style={{ background: C.alt }}>
-        {rows.map((r) => (
+        {rows.map((r, i) => (
           <motion.div
             key={r.label}
             initial={{ width: 0 }}
-            whileInView={{ width: `${(r.value / total) * 100}%` }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
+            animate={inView ? { width: `${(r.value / total) * 100}%` } : { width: 0 }}
+            transition={{ duration: 0.9, delay: i * 0.08, ease: "easeOut" }}
             className="h-full flex items-center justify-center text-[10px] font-bold text-white overflow-hidden"
             style={{ background: r.color }}
             title={`${r.label}: ${r.value}`}
@@ -340,11 +331,24 @@ function TrophySpread() {
       </div>
     </div>
   );
+}
+
+function TrophySpread() {
+  const messi = [
+    { label: "Barcelona", value: 35, color: C.messi },
+    { label: "Argentina / PSG / Miami", value: 13, color: `${C.messi}99` },
+  ];
+  const cr7 = [
+    { label: "England", value: 6, color: C.cr7 },
+    { label: "Spain", value: 15, color: C.gold },
+    { label: "Italy", value: 5, color: C.green },
+    { label: "Portugal", value: 9, color: C.purple },
+  ];
   return (
     <ChartCard title="Where the trophies were won" subtitle="Messi's cabinet sits mostly in one home; Ronaldo's is spread across the map">
       <div className="space-y-6">
-        <Bar rows={messi} total={48} who="Lionel Messi" whoColor={C.messi} />
-        <Bar rows={cr7} total={35} who="Cristiano Ronaldo" whoColor={C.cr7} />
+        <TrophyBar rows={messi} total={48} who="Lionel Messi" whoColor={C.messi} />
+        <TrophyBar rows={cr7} total={35} who="Cristiano Ronaldo" whoColor={C.cr7} />
       </div>
     </ChartCard>
   );
@@ -352,6 +356,8 @@ function TrophySpread() {
 
 /* ---------------- UCL DOMINANCE BARS ---------------- */
 function UCLBars() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   const metrics = [
     { label: "UCL titles", messi: 4, cr7: 5, max: 5 },
     { label: "Knockout goals", messi: 49, cr7: 67, max: 67 },
@@ -359,7 +365,7 @@ function UCLBars() {
   ];
   return (
     <ChartCard title="The Champions League belongs to one man" subtitle="Titles, knockout goals, and goals against the two greatest goalkeepers of the era">
-      <div className="space-y-6">
+      <div className="space-y-6" ref={ref}>
         {metrics.map((m) => (
           <div key={m.label}>
             <div className="text-sm font-semibold mb-2" style={{ color: C.text }}>{m.label}</div>
@@ -368,7 +374,7 @@ function UCLBars() {
               <div className="flex items-center gap-2">
                 <span className="text-[11px] w-16 shrink-0" style={{ color: C.messi }}>Messi</span>
                 <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ background: C.alt }}>
-                  <motion.div initial={{ width: 0 }} whileInView={{ width: `${(m.messi / m.max) * 100}%` }} viewport={{ once: true }} transition={{ duration: 1 }}
+                  <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(m.messi / m.max) * 100}%` } : { width: 0 }} transition={{ duration: 0.9, ease: "easeOut" }}
                     className="h-full flex items-center justify-end px-2 text-[11px] font-bold text-white" style={{ background: C.messi }}>
                     {m.messi}
                   </motion.div>
@@ -378,7 +384,7 @@ function UCLBars() {
               <div className="flex items-center gap-2">
                 <span className="text-[11px] w-16 shrink-0" style={{ color: C.cr7 }}>Ronaldo</span>
                 <div className="flex-1 h-7 rounded-lg overflow-hidden" style={{ background: C.alt }}>
-                  <motion.div initial={{ width: 0 }} whileInView={{ width: `${(m.cr7 / m.max) * 100}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.15 }}
+                  <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(m.cr7 / m.max) * 100}%` } : { width: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
                     className="h-full flex items-center justify-end px-2 text-[11px] font-bold text-white" style={{ background: C.cr7, boxShadow: `0 0 16px ${C.cr7}66` }}>
                     {m.cr7}
                   </motion.div>
@@ -480,6 +486,87 @@ function Age36Split() {
   );
 }
 
+/* ---------------- GOAL QUALITY (friendlies split) ---------------- */
+function GoalQuality() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  // Verified: Messi 117 total, ~63 competitive (54%) → ~46% friendlies
+  //           Ronaldo 143 total, 121 competitive (85%) → ~15% friendlies
+  const data = [
+    { who: "Messi", comp: 54, friendly: 46, color: C.messi },
+    { who: "Ronaldo", comp: 85, friendly: 15, color: C.cr7 },
+  ];
+  return (
+    <ChartCard title="Not all international goals are equal" subtitle="Share of international goals scored in competitive games vs. friendlies">
+      <div className="space-y-5" ref={ref}>
+        {data.map((d) => (
+          <div key={d.who}>
+            <div className="flex justify-between mb-2 text-sm">
+              <span className="font-bold" style={{ color: d.color }}>{d.who}</span>
+              <span className="font-mono text-xs" style={{ color: C.text2 }}>{d.comp}% competitive · {d.friendly}% friendlies</span>
+            </div>
+            <div className="flex h-8 w-full rounded-lg overflow-hidden" style={{ background: C.alt }}>
+              <motion.div initial={{ width: 0 }} animate={inView ? { width: `${d.comp}%` } : { width: 0 }} transition={{ duration: 0.9, ease: "easeOut" }}
+                className="h-full flex items-center justify-center text-[10px] font-bold text-white" style={{ background: d.color }}>
+                Competitive
+              </motion.div>
+              <motion.div initial={{ width: 0 }} animate={inView ? { width: `${d.friendly}%` } : { width: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+                className="h-full flex items-center justify-center text-[10px] font-bold" style={{ background: C.gray, color: "white" }}>
+                {d.friendly > 18 ? "Friendlies" : ""}
+              </motion.div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-[11px] italic" style={{ color: C.text2 }}>
+        Nearly half of Messi's international goals came in friendlies; for Ronaldo it's roughly one in seven.
+      </p>
+    </ChartCard>
+  );
+}
+
+/* ---------------- GOAT OF WHAT? competition breakdown ---------------- */
+function GoatBreakdown() {
+  const rows = [
+    { comp: "Champions League", goat: "Ronaldo", note: "Most goals, assists, titles & knockout goals", win: "cr7" },
+    { comp: "European Championship", goat: "Ronaldo", note: "All-time top scorer + a title", win: "cr7" },
+    { comp: "Club World Cup", goat: "Ronaldo", note: "Most goals (7); Messi 3rd (5)", win: "cr7" },
+    { comp: "World Cup", goat: "Pelé", note: "3 titles — neither Messi nor Ronaldo", win: "neutral" },
+    { comp: "Copa América", goat: "Not Messi", note: "Not even top-5 all-time scorer; Di María decisive in finals", win: "neutral" },
+    { comp: "La Liga", goat: "Messi", note: "One league, one country — his true kingdom", win: "messi" },
+  ];
+  return (
+    <ChartCard title="GOAT of what, exactly?" subtitle="Walk through every major competition and ask who truly tops it">
+      <div className="space-y-2.5">
+        {rows.map((r, i) => (
+          <motion.div key={r.comp}
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ delay: i * 0.06 }}
+            className="rounded-xl p-3 flex items-center gap-3"
+            style={{ background: C.alt, border: `1px solid ${C.grid}` }}>
+            <div className="min-w-0 flex-1">
+              <div className="font-bold text-sm" style={{ color: C.text }}>{r.comp}</div>
+              <div className="text-[11px]" style={{ color: C.text2 }}>{r.note}</div>
+            </div>
+            <div className="shrink-0 text-xs font-bold px-2.5 py-1 rounded-full"
+              style={{
+                background: r.win === "cr7" ? `${C.cr7}22` : r.win === "messi" ? `${C.messi}22` : `${C.gray}22`,
+                color: r.win === "cr7" ? C.cr7 : r.win === "messi" ? C.messi : C.text2,
+              }}>
+              {r.goat}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+      <p className="mt-4 text-[11px] italic" style={{ color: C.text2 }}>
+        Messi tops exactly one — La Liga. One league, one division, in a global sport.
+      </p>
+    </ChartCard>
+  );
+}
+
 /* ================= MAIN POST ================= */
 function RonaldoMessiPost() {
   const [progress, setProgress] = useState(0);
@@ -534,7 +621,7 @@ function RonaldoMessiPost() {
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-blog-hero-muted">
               <span>June 2026</span>
-              <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> 10 min read</span>
+              <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> 13 min read</span>
               <span className="inline-flex items-center gap-1.5"><Share2 className="h-3.5 w-3.5" /> Share:</span>
               <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("The Nomad and the Native — why Ronaldo is the GOAT")}&url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer" className="rounded-full p-2 hover:opacity-80 transition-smooth" style={{ background: "var(--muted)" }}>
                 <Twitter className="h-3.5 w-3.5" />
@@ -660,6 +747,7 @@ function RonaldoMessiPost() {
         <Reveal><WorldCupsTimeline /></Reveal>
         <Reveal>
           <P>And Ronaldo owns World Cup records Messi doesn't: the <strong>only male player to score in five consecutive World Cups</strong> (2006–2022), the only player to score in <strong>five separate Euros</strong> (2004–2024), and goals against <strong>47 different countries</strong>. Messi won the trophy once. Ronaldo stayed elite across five tournaments spanning two decades.</P>
+          <P><strong>One more myth to bust.</strong> Critics say Ronaldo has zero World Cup knockout goals while Messi has five. True — but <em>all five of Messi's knockout goals came in a single edition (2022)</em>; before that, across four World Cups, he also had zero. And of those five, <strong>three were penalties</strong>. A fair reading isn't "Messi is clutch and Ronaldo isn't" — it's that both men's World Cup knockout records are thinner than the highlight reels suggest.</P>
         </Reveal>
         <Callout>A World Cup proves a team peaked for a month. A career proves a man was great for twenty years.</Callout>
 
@@ -668,7 +756,9 @@ function RonaldoMessiPost() {
         <Reveal>
           <P>This is the part the trophy count hides completely. <strong>Argentina</strong> was already a football superpower — two World Cups and over a dozen Copa Américas <em>before Messi was even born</em>. He joined a giant.</P>
           <P><strong>Portugal</strong>, before Ronaldo, had qualified for just three World Cups in their entire history and had <strong>never won a major trophy</strong>. He dragged them to the <strong>Euro 2016 title</strong> and the Nations League crown <strong>twice (2019 and 2025)</strong>, became the <strong>highest international goalscorer in history (143 goals)</strong>, and is the <strong>all-time top scorer in the European Championship (14 goals)</strong>. He owns roughly <strong>22% of all the trophies Portugal has ever won</strong>. One man inherited a kingdom. The other built one from nothing.</P>
+          <P>And there's the question of mental strength. After missing a penalty in the <strong>2016 Copa América final</strong>, Messi announced his <strong>retirement from international football</strong> — only to reverse it later. Imagine the media storm if Ronaldo had walked away from his country after a final loss, then walked back. He never did. He kept showing up, final after final, carrying Portugal until the trophies came. Resilience under that weight is its own kind of greatness.</P>
         </Reveal>
+        <Reveal><GoalQuality /></Reveal>
         <Callout>It's easy to be great for a giant. It's history to make a giant out of nothing.</Callout>
 
         {/* SECTION 9 */}
@@ -690,6 +780,18 @@ function RonaldoMessiPost() {
           <P><strong>2018</strong> — Ronaldo won his third straight UCL as its top scorer; Modrić didn't outproduce him. <strong>2021</strong> — Lewandowski broke a 49-year scoring record; one continental tournament shouldn't beat that. <strong>2023</strong> — Haaland's record treble was statistically the most dominant striker season ever. Strip out the narrative and popularity, and the gap closes to a tie.</P>
         </Reveal>
         <Callout>An award is a story we agree to tell. It isn't always the truth.</Callout>
+
+        {/* SECTION 11 — GOAT OF WHAT */}
+        <SectionHeading kicker="Section 11">The GOAT of… Which Competition, Exactly?</SectionHeading>
+        <Reveal>
+          <P>Here's the simplest test of all. Pick any major competition and ask who truly sits at the top of it.</P>
+        </Reveal>
+        <Reveal><GoatBreakdown /></Reveal>
+        <Reveal>
+          <P>In the <strong>Champions League</strong>, the Club World Cup, and the Euros — it's Ronaldo. In the <strong>World Cup</strong>, the greatest is Pelé with three titles. In the <strong>Copa América</strong>, Messi isn't even a top-five all-time scorer, and legends like Di María were decisive in the finals he won. The one competition Messi truly rules is <strong>La Liga</strong> — one league, one division, in a sport played across the entire planet.</P>
+          <P>And the moment he left that comfort zone for France, the spell broke: <strong>6 league goals</strong> in his first season, visibly struggling to adapt even alongside Neymar and Mbappé. Ronaldo did the opposite — different leagues, different countries, different systems, different teammates, different challenges, but the <em>same</em> dominance everywhere. So how can anyone be crowned the GOAT when, outside one league, they aren't the greatest in a single major competition they entered?</P>
+        </Reveal>
+        <Callout>You can be the king of one kingdom, or the conqueror of many. Only one of those is the GOAT.</Callout>
 
         {/* CONCLUSION */}
         <SectionHeading kicker="The Verdict">Greatness That Travels</SectionHeading>
