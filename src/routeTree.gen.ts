@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as BlogsTn2026VoterParticipationRouteImport } from './routes/blogs.tn-2026-voter-participation'
+import { Route as BlogsRonaldoVsMessiGoatRouteImport } from './routes/blogs.ronaldo-vs-messi-goat'
 import { Route as BlogsDelimitation816SeatsRouteImport } from './routes/blogs.delimitation-816-seats'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 
@@ -43,6 +44,11 @@ const BlogsTn2026VoterParticipationRoute =
     path: '/blogs/tn-2026-voter-participation',
     getParentRoute: () => rootRouteImport,
   } as any)
+const BlogsRonaldoVsMessiGoatRoute = BlogsRonaldoVsMessiGoatRouteImport.update({
+  id: '/blogs/ronaldo-vs-messi-goat',
+  path: '/blogs/ronaldo-vs-messi-goat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogsDelimitation816SeatsRoute =
   BlogsDelimitation816SeatsRouteImport.update({
     id: '/blogs/delimitation-816-seats',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
+  '/blogs/ronaldo-vs-messi-goat': typeof BlogsRonaldoVsMessiGoatRoute
   '/blogs/tn-2026-voter-participation': typeof BlogsTn2026VoterParticipationRoute
   '/blogs/': typeof BlogsIndexRoute
 }
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
+  '/blogs/ronaldo-vs-messi-goat': typeof BlogsRonaldoVsMessiGoatRoute
   '/blogs/tn-2026-voter-participation': typeof BlogsTn2026VoterParticipationRoute
   '/blogs': typeof BlogsIndexRoute
 }
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/delimitation-816-seats': typeof BlogsDelimitation816SeatsRoute
+  '/blogs/ronaldo-vs-messi-goat': typeof BlogsRonaldoVsMessiGoatRoute
   '/blogs/tn-2026-voter-participation': typeof BlogsTn2026VoterParticipationRoute
   '/blogs/': typeof BlogsIndexRoute
 }
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/blogs/$slug'
     | '/blogs/delimitation-816-seats'
+    | '/blogs/ronaldo-vs-messi-goat'
     | '/blogs/tn-2026-voter-participation'
     | '/blogs/'
   fileRoutesByTo: FileRoutesByTo
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/blogs/$slug'
     | '/blogs/delimitation-816-seats'
+    | '/blogs/ronaldo-vs-messi-goat'
     | '/blogs/tn-2026-voter-participation'
     | '/blogs'
   id:
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/blogs/$slug'
     | '/blogs/delimitation-816-seats'
+    | '/blogs/ronaldo-vs-messi-goat'
     | '/blogs/tn-2026-voter-participation'
     | '/blogs/'
   fileRoutesById: FileRoutesById
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
   BlogsDelimitation816SeatsRoute: typeof BlogsDelimitation816SeatsRoute
+  BlogsRonaldoVsMessiGoatRoute: typeof BlogsRonaldoVsMessiGoatRoute
   BlogsTn2026VoterParticipationRoute: typeof BlogsTn2026VoterParticipationRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
 }
@@ -160,6 +173,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsTn2026VoterParticipationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/ronaldo-vs-messi-goat': {
+      id: '/blogs/ronaldo-vs-messi-goat'
+      path: '/blogs/ronaldo-vs-messi-goat'
+      fullPath: '/blogs/ronaldo-vs-messi-goat'
+      preLoaderRoute: typeof BlogsRonaldoVsMessiGoatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/delimitation-816-seats': {
       id: '/blogs/delimitation-816-seats'
       path: '/blogs/delimitation-816-seats'
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   BlogsSlugRoute: BlogsSlugRoute,
   BlogsDelimitation816SeatsRoute: BlogsDelimitation816SeatsRoute,
+  BlogsRonaldoVsMessiGoatRoute: BlogsRonaldoVsMessiGoatRoute,
   BlogsTn2026VoterParticipationRoute: BlogsTn2026VoterParticipationRoute,
   BlogsIndexRoute: BlogsIndexRoute,
 }
