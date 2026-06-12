@@ -14,6 +14,7 @@ import {
   Target,
 } from "lucide-react";
 import cover from "@/assets/blog-ronaldo-messi.jpg";
+import { BlogEngagement } from "@/components/BlogEngagement";
 
 export const Route = createFileRoute("/blogs/ronaldo-vs-messi-goat")({
   head: () => ({
@@ -191,23 +192,51 @@ function GoalCounter() {
 
 /* ---------------- SCORING FINGERPRINT ---------------- */
 function ScoringFingerprint() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   const parts = [
-    { label: "Left foot", value: 179, color: C.messi, note: "his \"weak\" foot — 3rd-most since 2000" },
-    { label: "Right foot", value: 1, color: C.cr7, note: "his dominant foot — the bulk of his goals", display: "100s" },
-    { label: "Headers", value: 1, color: C.gold, note: "100+ — a category of his own", display: "100+" },
+    { label: "Right foot", value: 628, color: C.cr7, note: "his dominant weapon" },
+    { label: "Left foot", value: 185, color: C.messi, note: "his \"weak\" foot — still elite" },
+    { label: "Headers", value: 157, color: C.gold, note: "a category of his own" },
   ];
+  const total = parts.reduce((s, p) => s + p.value, 0);
   return (
     <ChartCard title="The complete scorer" subtitle="The only player ever with 100+ goals using right foot, left foot, AND head">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {parts.map((p) => (
-          <div key={p.label} className="rounded-2xl p-4 text-center" style={{ background: C.alt }}>
-            <div className="font-display font-bold" style={{ fontSize: "2rem", color: p.color }}>
-              {p.label === "Left foot" ? "179" : p.display}
-            </div>
-            <div className="mt-1 text-sm font-semibold" style={{ color: C.text }}>{p.label}</div>
+      {/* Big number cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" ref={ref}>
+        {parts.map((p, i) => (
+          <motion.div
+            key={p.label}
+            initial={{ opacity: 0, y: 14 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.12, duration: 0.5 }}
+            className="rounded-2xl p-4 text-center relative overflow-hidden"
+            style={{ background: C.alt }}
+          >
+            <div className="absolute inset-x-0 bottom-0 h-1" style={{ background: p.color }} />
+            <div className="font-display font-bold" style={{ fontSize: "2.6rem", lineHeight: 1, color: p.color }}>{p.value}</div>
+            <div className="mt-2 text-sm font-semibold" style={{ color: C.text }}>{p.label}</div>
             <div className="mt-1 text-[11px] leading-snug" style={{ color: C.text2 }}>{p.note}</div>
-          </div>
+          </motion.div>
         ))}
+      </div>
+      {/* Proportion bar */}
+      <div className="mt-5">
+        <div className="flex h-4 w-full rounded-full overflow-hidden" style={{ background: C.alt }}>
+          {parts.map((p, i) => (
+            <motion.div
+              key={p.label}
+              initial={{ width: 0 }}
+              animate={inView ? { width: `${(p.value / total) * 100}%` } : { width: 0 }}
+              transition={{ duration: 0.9, delay: 0.3 + i * 0.1, ease: "easeOut" }}
+              style={{ background: p.color }}
+              title={`${p.label}: ${p.value}`}
+            />
+          ))}
+        </div>
+        <p className="mt-2 text-center text-[11px] italic" style={{ color: C.text2 }}>
+          Split across three different finishing weapons no other player in history can match.
+        </p>
       </div>
     </ChartCard>
   );
@@ -262,6 +291,11 @@ function HonorsTable() {
   ];
   return (
     <ChartCard title="Head to head: the honors that matter" subtitle="Same legends, very different shapes of greatness">
+      <p className="mb-2 text-[11px] flex items-center gap-1.5 sm:hidden" style={{ color: C.text2 }}>
+        <span>←</span>
+        <span>Scroll left to see all columns</span>
+        <span>→</span>
+      </p>
       <div className="overflow-x-auto w-full">
         <table className="w-full min-w-[460px] text-sm">
           <thead>
@@ -532,7 +566,7 @@ function GoatBreakdown() {
     { comp: "European Championship", goat: "Ronaldo", note: "All-time top scorer + a title", win: "cr7" },
     { comp: "Club World Cup", goat: "Ronaldo", note: "Most goals (7); Messi 3rd (5)", win: "cr7" },
     { comp: "World Cup", goat: "Pelé", note: "3 titles — neither Messi nor Ronaldo", win: "neutral" },
-    { comp: "Copa América", goat: "Not Messi", note: "Not even top-5 all-time scorer; Di María decisive in finals", win: "neutral" },
+    { comp: "Copa América", goat: "Méndez", note: "Norberto Méndez — 17 goals, 3 titles in the 1940s. Messi isn't even top-5", win: "neutral" },
     { comp: "La Liga", goat: "Messi", note: "One league, one country — his true kingdom", win: "messi" },
   ];
   return (
@@ -564,6 +598,55 @@ function GoatBreakdown() {
         Messi tops exactly one — La Liga. One league, one division, in a global sport.
       </p>
     </ChartCard>
+  );
+}
+
+/* ---------------- COMPLETE PLAYER SHOWCASE ---------------- */
+function CompletePlayer() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const traits = [
+    { icon: "🦶", label: "Left foot" },
+    { icon: "⚡", label: "Right foot" },
+    { icon: "🎯", label: "Headers" },
+    { icon: "🤸", label: "Acrobatics" },
+    { icon: "🚀", label: "Speed" },
+    { icon: "💥", label: "Long shots" },
+    { icon: "🌀", label: "Dribbling" },
+    { icon: "🚲", label: "Bicycle kicks" },
+    { icon: "🧊", label: "Clutch" },
+    { icon: "🥅", label: "Penalty master" },
+    { icon: "🧠", label: "Calm under pressure" },
+    { icon: "🪄", label: "Playmaking" },
+    { icon: "🎁", label: "Accurate passing" },
+    { icon: "🏋️", label: "Athleticism" },
+  ];
+  return (
+    <div ref={ref} className="not-prose my-8">
+      <div className="text-center mb-5">
+        <h4 className="font-display text-lg sm:text-xl font-bold" style={{ color: C.text }}>One player. Every weapon.</h4>
+        <p className="mt-1 text-sm" style={{ color: C.text2 }}>Not a specialist — a complete footballer in every dimension of the game</p>
+      </div>
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-2.5">
+        {traits.map((t, i) => (
+          <motion.div
+            key={t.label}
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: i * 0.05, type: "spring", stiffness: 200, damping: 16 }}
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs sm:text-sm font-semibold"
+            style={{
+              background: `linear-gradient(135deg, ${C.cr7}18, ${C.gold}18)`,
+              border: `1px solid ${C.cr7}44`,
+              color: C.text,
+            }}
+          >
+            <span className="text-base">{t.icon}</span>
+            {t.label}
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -788,7 +871,7 @@ function RonaldoMessiPost() {
         </Reveal>
         <Reveal><GoatBreakdown /></Reveal>
         <Reveal>
-          <P>In the <strong>Champions League</strong>, the Club World Cup, and the Euros — it's Ronaldo. In the <strong>World Cup</strong>, the greatest is Pelé with three titles. In the <strong>Copa América</strong>, Messi isn't even a top-five all-time scorer, and legends like Di María were decisive in the finals he won. The one competition Messi truly rules is <strong>La Liga</strong> — one league, one division, in a sport played across the entire planet.</P>
+          <P>In the <strong>Champions League</strong>, the Club World Cup, and the Euros — it's Ronaldo. In the <strong>World Cup</strong>, the greatest is Pelé with three titles. In the <strong>Copa América</strong>, Messi isn't even a top-five all-time scorer — that crown belongs to <strong>Norberto Méndez</strong>, who scored <strong>17 goals in just 17 matches</strong> across three tournaments in the 1940s, helping Argentina win <strong>three consecutive titles</strong>. The one competition Messi truly rules is <strong>La Liga</strong> — one league, one division, in a sport played across the entire planet.</P>
           <P>And the moment he left that comfort zone for France, the spell broke: <strong>6 league goals</strong> in his first season, visibly struggling to adapt even alongside Neymar and Mbappé. Ronaldo did the opposite — different leagues, different countries, different systems, different teammates, different challenges, but the <em>same</em> dominance everywhere. So how can anyone be crowned the GOAT when, outside one league, they aren't the greatest in a single major competition they entered?</P>
         </Reveal>
         <Callout>You can be the king of one kingdom, or the conqueror of many. Only one of those is the GOAT.</Callout>
@@ -798,7 +881,9 @@ function RonaldoMessiPost() {
         <Reveal>
           <P>So here's where we land. If greatness is a spreadsheet, Messi wins. He's the more gifted natural footballer — and that's not up for debate.</P>
           <P>But if greatness is the ability to walk into <em>any</em> country, <em>any</em> system, <em>any</em> level of adversity — and still come out on top — then there's only one answer. Ronaldo conquered four leagues. Top-scored four nations. Rebuilt his body to beat time. Carried a country that had nothing before him. Owned the biggest stage in club football. Scored across five World Cups and three decades.</P>
+          <P>And here's the part the spreadsheet can never capture: Ronaldo is football's <strong>complete player</strong>. He scores with his <strong>left foot</strong> and his <strong>right</strong>, with towering <strong>headers</strong> and jaw-dropping <strong>bicycle kicks</strong> and <strong>acrobatic</strong> volleys. He has blistering <strong>speed</strong>, thunderous <strong>long shots</strong>, slick <strong>dribbling</strong>, ice-cold <strong>clutch</strong> instincts, and the calm of a <strong>penalty master</strong> who stays composed when the whole world is watching. He <strong>creates</strong> as well as he finishes — sharp <strong>playmaking</strong> and <strong>pinpoint passing</strong> — all wrapped in an <strong>athletic engine</strong> that refuses to age. There is no part of the game he hasn't mastered.</P>
         </Reveal>
+        <Reveal><CompletePlayer /></Reveal>
         <div className="my-10 sm:my-14 text-center">
           <motion.blockquote
             initial={{ opacity: 0, scale: 0.96 }}
@@ -811,7 +896,7 @@ function RonaldoMessiPost() {
             "Messi mastered a kingdom. Ronaldo conquered the world."
           </motion.blockquote>
           <p className="mt-4 text-sm" style={{ color: C.text2 }}>
-            Stats measure what a player did. Greatness measures what he overcame.
+            Stats measure what a player did. Greatness measures what he overcame — and how complete he was while doing it.
           </p>
         </div>
 
@@ -822,6 +907,7 @@ function RonaldoMessiPost() {
             <ArrowLeft className="h-4 w-4" /> More articles
           </Link>
         </div>
+        <BlogEngagement slug="ronaldo-vs-messi-goat" />
       </div>
     </article>
   );
