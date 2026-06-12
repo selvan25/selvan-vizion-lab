@@ -12,7 +12,7 @@ import kpi from "@/assets/blog-kpi.jpg";
 import career from "@/assets/blog-career.jpg";
 import delimitation from "@/assets/blog-delimitation.jpg";
 import tn2026 from "@/assets/blog-tn2026.jpg";
-import ronaldoMessi from "@/assets/blog-ronaldo-messi.png";
+import ronaldoMessi from "@/assets/blog-ronaldo-messi.jpg";
 
 export type ChartPoint = { label: string; value: number };
 
