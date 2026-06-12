@@ -13,7 +13,7 @@ import {
   Globe,
   Target,
 } from "lucide-react";
-import cover from "@/assets/blog-ronaldo-messi.png";
+import cover from "@/assets/blog-ronaldo-messi.jpg";
 
 export const Route = createFileRoute("/blogs/ronaldo-vs-messi-goat")({
   head: () => ({
