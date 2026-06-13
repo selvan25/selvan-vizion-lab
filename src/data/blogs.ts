@@ -46,9 +46,9 @@ export type Blog = {
 export const blogs: Blog[] = [
   {
     slug: "ronaldo-vs-messi-goat",
-    title: "The Nomad and the Native: Why Ronaldo Is the GOAT",
+    title: "Messi Won More. Ronaldo Did More.",
     description:
-      "Ronaldo conquered four countries; Messi mastered one kingdom. A data-backed case for why the greatness that traveled the world makes Cristiano Ronaldo football's true GOAT.",
+      "Most GOAT debates start with trophies and Ballon d'Ors. This one asks what greatness actually means — and makes the data-backed case for Cristiano Ronaldo.",
     category: "Football",
     readTime: "13 min read",
     date: "June 12, 2026",
