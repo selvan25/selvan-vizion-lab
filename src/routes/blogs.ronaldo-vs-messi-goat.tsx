@@ -19,16 +19,16 @@ import { BlogEngagement } from "@/components/BlogEngagement";
 export const Route = createFileRoute("/blogs/ronaldo-vs-messi-goat")({
   head: () => ({
     meta: [
-      { title: "The Nomad and the Native: Why Ronaldo Is the GOAT — Selvan Rajan" },
+      { title: "Messi Won More. Ronaldo Did More. — Selvan Rajan" },
       {
         name: "description",
         content:
-          "Ronaldo conquered four countries; Messi mastered one kingdom. A data-backed case for why the greatness that traveled the world makes Cristiano Ronaldo football's true GOAT.",
+          "Most GOAT debates start with trophies and Ballon d'Ors. This one asks what greatness actually means — and makes the data-backed case for Cristiano Ronaldo.",
       },
-      { property: "og:title", content: "The Nomad and the Native — Ronaldo vs Messi" },
+      { property: "og:title", content: "Messi Won More. Ronaldo Did More." },
       {
         property: "og:description",
-        content: "Greatness that travels vs. greatness that stays home. The data-backed case for Ronaldo as the GOAT.",
+        content: "Greatness isn't always about who won the most — sometimes it's about who overcame the most. The case for Ronaldo as the GOAT.",
       },
       { property: "og:type", content: "article" },
       { property: "og:image", content: cover },
@@ -614,12 +614,20 @@ function CompletePlayer() {
     { icon: "💥", label: "Long shots" },
     { icon: "🌀", label: "Dribbling" },
     { icon: "🚲", label: "Bicycle kicks" },
+    { icon: "🎪", label: "Free kicks" },
     { icon: "🧊", label: "Clutch" },
     { icon: "🥅", label: "Penalty master" },
     { icon: "🧠", label: "Calm under pressure" },
     { icon: "🪄", label: "Playmaking" },
     { icon: "🎁", label: "Accurate passing" },
     { icon: "🏋️", label: "Athleticism" },
+    { icon: "©️", label: "Leadership" },
+    { icon: "🔥", label: "Winning mentality" },
+    { icon: "📈", label: "Consistency" },
+    { icon: "⏳", label: "Longevity" },
+    { icon: "🎖️", label: "Self-discipline" },
+    { icon: "💪", label: "Work ethic" },
+    { icon: "✨", label: "Confidence" },
   ];
   return (
     <div ref={ref} className="not-prose my-8">
@@ -647,6 +655,277 @@ function CompletePlayer() {
         ))}
       </div>
     </div>
+  );
+}
+
+/* ---------------- JOURNEY OF CONQUEST ROADMAP ---------------- */
+function JourneyRoadmap() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const stops = [
+    { flag: "🏝️", club: "Madeira", sub: "The skinny dreamer", color: C.gray },
+    { flag: "🇵🇹", club: "Sporting CP", sub: "The breakout", color: C.green },
+    { flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", club: "Man United", sub: "3 PL titles · 1 UCL · 1st Ballon d'Or", color: C.cr7 },
+    { flag: "🇪🇸", club: "Real Madrid", sub: "450 goals · 4 UCLs · 2 Ballon d'Ors", color: C.gold },
+    { flag: "🇮🇹", club: "Juventus", sub: "2 Serie A · Golden Boot at 33", color: C.green },
+    { flag: "🇸🇦", club: "Al-Nassr", sub: "Top scorer in a 4th country", color: C.purple },
+  ];
+  return (
+    <ChartCard title="The Man Who Conquered Every Kingdom" subtitle="One career, six stops, four countries — same outcome everywhere">
+      <div ref={ref} className="relative">
+        <div className="space-y-3">
+          {stops.map((s, i) => (
+            <motion.div
+              key={s.club}
+              initial={{ opacity: 0, x: -16 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: i * 0.12, duration: 0.5 }}
+              className="flex items-center gap-3"
+            >
+              <div className="shrink-0 h-11 w-11 rounded-2xl flex items-center justify-center text-xl" style={{ background: `${s.color}22`, border: `1px solid ${s.color}55` }}>
+                {s.flag}
+              </div>
+              <div className="min-w-0 flex-1 rounded-xl px-3 py-2" style={{ background: C.alt }}>
+                <div className="font-bold text-sm" style={{ color: C.text }}>{s.club}</div>
+                <div className="text-[11px]" style={{ color: C.text2 }}>{s.sub}</div>
+              </div>
+              {i < stops.length - 1 && (
+                <span className="shrink-0 text-lg" style={{ color: s.color }}>↓</span>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </ChartCard>
+  );
+}
+
+/* ---------------- EVOLUTION TIMELINE ---------------- */
+function EvolutionTimeline() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const eras = [
+    { year: "2003", role: "Skinny Winger", color: C.green },
+    { year: "2008", role: "Ballon d'Or Winner", color: C.cr7 },
+    { year: "2014", role: "Goal Machine", color: C.gold },
+    { year: "2018", role: "Champions League King", color: C.purple },
+    { year: "2025", role: "1000-Goal Hunter", color: C.messi },
+  ];
+  return (
+    <ChartCard title="One Career. Five Different Players." subtitle="Most players have one prime. Ronaldo reinvented himself for every era">
+      <div ref={ref} className="grid grid-cols-5 gap-1 sm:gap-2 relative">
+        <div className="absolute top-4 left-0 right-0 h-0.5" style={{ background: `linear-gradient(90deg, ${C.green}, ${C.cr7}, ${C.gold}, ${C.purple}, ${C.messi})` }} />
+        {eras.map((e, i) => (
+          <motion.div
+            key={e.year}
+            initial={{ opacity: 0, y: 14 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.14, duration: 0.5 }}
+            className="flex flex-col items-center text-center"
+          >
+            <div className="h-8 w-8 rounded-full z-10 mb-2 flex items-center justify-center text-white text-[10px] font-bold" style={{ background: e.color, boxShadow: `0 0 12px ${e.color}88` }}>
+              {i + 1}
+            </div>
+            <div className="font-mono font-bold text-xs sm:text-sm" style={{ color: e.color }}>{e.year}</div>
+            <div className="mt-0.5 text-[9px] sm:text-[11px] leading-tight font-medium" style={{ color: C.text }}>{e.role}</div>
+          </motion.div>
+        ))}
+      </div>
+    </ChartCard>
+  );
+}
+
+/* ---------------- UCL KNOCKOUT STAGE TABLE ---------------- */
+function UCLKnockoutTable() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  // Approximate UCL knockout goals by round
+  const rows = [
+    { stage: "Round of 16", messi: 23, cr7: 27 },
+    { stage: "Quarter-final", messi: 14, cr7: 19 },
+    { stage: "Semi-final", messi: 9, cr7: 13 },
+    { stage: "Final", messi: 3, cr7: 8 },
+  ];
+  const maxV = 27;
+  return (
+    <ChartCard title="Knockout goals, round by round" subtitle="Where Europe's elite meet — and where Ronaldo pulls away">
+      <div ref={ref} className="space-y-4">
+        {rows.map((r) => (
+          <div key={r.stage}>
+            <div className="flex justify-between text-xs sm:text-sm mb-1.5">
+              <span className="font-semibold" style={{ color: C.text }}>{r.stage}</span>
+              <span className="font-mono" style={{ color: C.text2 }}>
+                <span style={{ color: C.messi }}>{r.messi}</span> · <span style={{ color: C.cr7 }}>{r.cr7}</span>
+              </span>
+            </div>
+            <div className="flex gap-1.5">
+              <div className="flex-1 h-5 rounded-md overflow-hidden flex justify-end" style={{ background: C.alt }}>
+                <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(r.messi / maxV) * 100}%` } : {}} transition={{ duration: 0.8 }}
+                  className="h-full" style={{ background: C.messi }} />
+              </div>
+              <div className="flex-1 h-5 rounded-md overflow-hidden" style={{ background: C.alt }}>
+                <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(r.cr7 / maxV) * 100}%` } : {}} transition={{ duration: 0.8, delay: 0.1 }}
+                  className="h-full" style={{ background: C.cr7, boxShadow: `0 0 12px ${C.cr7}55` }} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 flex gap-4 text-[11px]" style={{ color: C.text2 }}>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: C.messi }} /> Messi</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: C.cr7 }} /> Ronaldo</span>
+        <span className="italic">Ronaldo leads at every single stage</span>
+      </div>
+    </ChartCard>
+  );
+}
+
+/* ---------------- FOUR CROWNS (simultaneous top scorer) ---------------- */
+function FourCrowns() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const crowns = [
+    { icon: "👑", title: "Real Madrid", sub: "All-time top scorer" },
+    { icon: "🏆", title: "Champions League", sub: "All-time top scorer" },
+    { icon: "🌍", title: "International football", sub: "All-time top scorer" },
+    { icon: "🇵🇹", title: "Portugal", sub: "All-time top scorer" },
+  ];
+  return (
+    <ChartCard title="Four crowns at the same time" subtitle="Simultaneously the all-time top scorer for his club, his continent's biggest competition, and his country">
+      <div ref={ref} className="grid grid-cols-2 gap-3">
+        {crowns.map((c, i) => (
+          <motion.div
+            key={c.title}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: i * 0.1, type: "spring", stiffness: 180, damping: 15 }}
+            className="rounded-2xl p-4 text-center"
+            style={{ background: `linear-gradient(135deg, ${C.cr7}14, ${C.gold}14)`, border: `1px solid ${C.cr7}33` }}
+          >
+            <div className="text-2xl">{c.icon}</div>
+            <div className="mt-1.5 font-bold text-sm" style={{ color: C.text }}>{c.title}</div>
+            <div className="text-[11px]" style={{ color: C.text2 }}>{c.sub}</div>
+          </motion.div>
+        ))}
+      </div>
+      <p className="mt-4 text-center text-[11px] italic" style={{ color: C.text2 }}>
+        Almost no athlete in any sport has ever led their club, their continent, and their country — all at once.
+      </p>
+    </ChartCard>
+  );
+}
+
+/* ---------------- UCL RECORDS LIST ---------------- */
+function UCLRecords() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const records = [
+    "Only player to be UCL top scorer for 6 consecutive seasons",
+    "Only player to score 15+ UCL goals in multiple seasons",
+    "Only player to score in 11 consecutive Champions League matches",
+    "Only player to score in all six UCL group-stage matches in a season",
+    "Record 17 goals in a single UCL campaign",
+    "Only player to score 100+ goals for 5 different teams",
+  ];
+  return (
+    <ChartCard title="Records that begin with the word 'only'" subtitle="Champions League feats no other player in history has matched">
+      <div ref={ref} className="space-y-2">
+        {records.map((r, i) => (
+          <motion.div
+            key={r}
+            initial={{ opacity: 0, x: -10 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: i * 0.08 }}
+            className="flex gap-3 items-start rounded-xl px-3 py-2.5"
+            style={{ background: C.alt }}
+          >
+            <span className="shrink-0 mt-0.5 text-xs font-bold px-1.5 py-0.5 rounded" style={{ background: `${C.cr7}22`, color: C.cr7 }}>ONLY</span>
+            <span className="text-xs sm:text-sm" style={{ color: C.text }}>{r}</span>
+          </motion.div>
+        ))}
+      </div>
+    </ChartCard>
+  );
+}
+
+/* ---------------- CLUTCH MOMENTS NARRATIVE ---------------- */
+function ClutchMoments() {
+  const moments = [
+    { match: "Portugal 3-3 Spain", event: "World Cup 2018", story: "Underdogs, Spain leading 3-2 in the 88th minute. Ronaldo curls in an 88th-minute free-kick to complete his hat-trick and rescue a point.", tag: "Hat-trick" },
+    { match: "Real Madrid 3-0 Wolfsburg", event: "Champions League 2016", story: "2-0 down from the first leg, 90 minutes from elimination. Ronaldo scores all three goals — a comeback that launched the campaign Madrid would go on to win.", tag: "Hat-trick" },
+    { match: "Portugal 3-1 Switzerland", event: "Nations League SF 2019", story: "A semi-final on the line — Ronaldo scores all three Portugal goals to carry them to the final.", tag: "Hat-trick" },
+    { match: "Atlético 0-3 Juventus", event: "Champions League 2019", story: "0-2 down from the first leg. Ronaldo answers with a hat-trick to overturn the tie almost single-handedly.", tag: "Hat-trick" },
+    { match: "Sweden 2-3 Portugal", event: "WC Playoff 2013", story: "World Cup qualification on the line. Ronaldo scores three — including two late strikes — to send Portugal to the World Cup almost alone.", tag: "Hat-trick" },
+    { match: "Northern Ireland 2-4 Portugal", event: "WC Qualifying 2013", story: "Portugal in trouble. Ronaldo scores three goals in the final 22 minutes to flip the game.", tag: "22-min hat-trick" },
+    { match: "Armenia 2-3 Portugal", event: "Euro 2016 Qualifier", story: "Portugal fall behind. Ronaldo responds with all three Portuguese goals to secure the win.", tag: "Hat-trick" },
+    { match: "Man United 3-2 Tottenham", event: "2022", story: "At 37 years old, Ronaldo rescues one of the biggest clubs in the world with a match-winning hat-trick.", tag: "Hat-trick at 37" },
+    { match: "Man United 3-2 Norwich", event: "2022", story: "Another rescue act — Ronaldo's hat-trick drags United over the line when they needed him most.", tag: "Hat-trick" },
+  ];
+  return (
+    <ChartCard title="When the team was drowning, one man kept swimming" subtitle="Matches Ronaldo single-handedly rescued — a clutch list no rival can match">
+      <div className="relative pl-5">
+        {/* vertical line */}
+        <div className="absolute left-1.5 top-2 bottom-2 w-0.5" style={{ background: `linear-gradient(${C.cr7}, ${C.gold})` }} />
+        <div className="space-y-4">
+          {moments.map((m, i) => (
+            <motion.div
+              key={m.match + m.event}
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ delay: i * 0.05 }}
+              className="relative"
+            >
+              <span className="absolute -left-[18px] top-1.5 h-3 w-3 rounded-full" style={{ background: C.cr7, boxShadow: `0 0 8px ${C.cr7}` }} />
+              <div className="rounded-xl p-3" style={{ background: C.alt, border: `1px solid ${C.grid}` }}>
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="font-bold text-sm" style={{ color: C.text }}>{m.match}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: `${C.cr7}22`, color: C.cr7 }}>{m.tag}</span>
+                </div>
+                <div className="text-[11px] font-medium mt-0.5" style={{ color: C.gold }}>{m.event}</div>
+                <p className="mt-1.5 text-xs sm:text-sm leading-relaxed" style={{ color: C.text2 }}>{m.story}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </ChartCard>
+  );
+}
+
+/* ---------------- PORTUGAL BEFORE / AFTER ---------------- */
+function PortugalBeforeAfter() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <ChartCard title="Portugal: before Ronaldo vs after Ronaldo" subtitle="What one man did to a nation's entire football history">
+      <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="rounded-2xl p-5 text-center"
+          style={{ background: C.alt, border: `1px solid ${C.grid}` }}
+        >
+          <div className="text-xs uppercase tracking-wider font-semibold" style={{ color: C.text2 }}>Before Ronaldo</div>
+          <div className="mt-3 font-display font-bold" style={{ fontSize: "3rem", lineHeight: 1, color: C.gray }}>0</div>
+          <div className="mt-1 text-sm font-medium" style={{ color: C.text }}>major trophies</div>
+          <div className="mt-3 text-[11px]" style={{ color: C.text2 }}>Qualified for just <strong>3 World Cups</strong> in their entire history</div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="rounded-2xl p-5 text-center"
+          style={{ background: `linear-gradient(135deg, ${C.cr7}18, ${C.gold}18)`, border: `1px solid ${C.cr7}44` }}
+        >
+          <div className="text-xs uppercase tracking-wider font-semibold" style={{ color: C.cr7 }}>After Ronaldo</div>
+          <div className="mt-3 font-display font-bold" style={{ fontSize: "3rem", lineHeight: 1, color: C.cr7 }}>3</div>
+          <div className="mt-1 text-sm font-medium" style={{ color: C.text }}>major trophies</div>
+          <div className="mt-3 text-[11px]" style={{ color: C.text2 }}>Euro 2016 · Nations League 2019 &amp; 2025 — plus a near-perfect qualification record for every major tournament since his debut</div>
+        </motion.div>
+      </div>
+    </ChartCard>
   );
 }
 
@@ -693,20 +972,19 @@ function RonaldoMessiPost() {
               Football · Data &amp; Debate
             </span>
             <h1 className="mt-4 sm:mt-5 font-display font-bold tracking-tight leading-[1.1] text-blog-hero-title text-[clamp(1.75rem,6vw,3.75rem)] break-words">
-              The Nomad and the Native:{" "}
+              Messi Won More.{" "}
               <span style={{ background: `linear-gradient(90deg, ${C.cr7}, ${C.gold})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                Greatness That Travels
-              </span>{" "}
-              vs. Greatness That Stays Home
+                Ronaldo Did More.
+              </span>
             </h1>
             <p className="mt-4 text-sm sm:text-base text-blog-hero-muted max-w-2xl leading-relaxed">
-              Ronaldo conquered four countries. Messi mastered one kingdom. This is the data-backed case for why the greatness that traveled the world makes Cristiano Ronaldo football's true GOAT.
+              Most GOAT debates start with trophies, Ballon d'Ors, and World Cups. This one doesn't — because greatness isn't always about who won the most, but who overcame the most. Messi may be football's greatest natural talent. Ronaldo is something rarer: a player who conquered multiple leagues, adapted to different cultures, and turned relentless self-improvement into an art form.
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-blog-hero-muted">
               <span>June 2026</span>
               <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> 13 min read</span>
               <span className="inline-flex items-center gap-1.5"><Share2 className="h-3.5 w-3.5" /> Share:</span>
-              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("The Nomad and the Native — why Ronaldo is the GOAT")}&url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer" className="rounded-full p-2 hover:opacity-80 transition-smooth" style={{ background: "var(--muted)" }}>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Messi won more. Ronaldo did more — the GOAT case")}&url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer" className="rounded-full p-2 hover:opacity-80 transition-smooth" style={{ background: "var(--muted)" }}>
                 <Twitter className="h-3.5 w-3.5" />
               </a>
               <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer" className="rounded-full p-2 hover:opacity-80 transition-smooth" style={{ background: "var(--muted)" }}>
@@ -742,15 +1020,19 @@ function RonaldoMessiPost() {
 
         <Reveal>
           <P>
-            Everyone reaches for the same scoreboard: more goals, more assists, a World Cup, debate over. But that scoreboard measures <em>accumulation</em>, not <em>difficulty</em> — and the moment you ask not "who scored more?" but "who conquered more?", the answer flips. This is the case for why Cristiano Ronaldo, not Lionel Messi, is football's true GOAT.
+            Imagine two people reach the top of Mount Everest. One was dropped halfway up by a helicopter. The other climbed every step. Both reached the summit — but whose achievement impresses you more?
+          </P>
+          <P>
+            Most GOAT debates obsess over <em>where</em> Messi and Ronaldo finished: trophies, Ballon d'Ors, a World Cup. This one asks <em>how</em> they got there. And when the journey matters as much as the destination, Ronaldo's case becomes impossible to ignore.
           </P>
         </Reveal>
 
         {/* SECTION 1 */}
-        <SectionHeading kicker="Section 1">First, Let's Be Honest: Messi Wins the Spreadsheet</SectionHeading>
+        <SectionHeading kicker="Section 1">The Question Everyone Asks Wrong</SectionHeading>
         <Reveal>
-          <P>No games here. On raw per-game numbers, Messi is the more naturally gifted scorer and creator. If greatness were a column in Excel, the debate would be over.</P>
-          <P>But here's the question nobody asks: <strong>does the spreadsheet measure greatness, or just comfort?</strong> Every sport has this argument — the player with the biggest numbers is rarely the one history fears most:</P>
+          <P>Let's be fair first: <strong>Messi has won more.</strong> More Ballon d'Ors, a World Cup, more trophies. If greatness is a scoreboard, the debate ends there — and he's the more gifted natural footballer, which isn't up for debate.</P>
+          <P>But football is an individual sport disguised as a team sport. So the real question was never "who won more?" It's <strong>who proved more? Who adapted more? Who conquered more challenges? Who succeeded under more conditions?</strong></P>
+          <P>Ask those questions, and Ronaldo's career stops looking like a football career — and starts looking like the greatest competitive achievement the sport has ever seen. Every sport has this pattern: the player with the biggest numbers is rarely the one history fears most.</P>
           <ul className="my-4 space-y-2 text-base sm:text-lg" style={{ color: C.text }}>
             <li>🏏 <strong>Cricket:</strong> Tendulkar and Kohli have the run mountains. Dhoni has the trophies and ice in his veins when it mattered.</li>
             <li>🏀 <strong>Basketball:</strong> LeBron has more points. Jordan went 6-for-6 in Finals and never lost one.</li>
@@ -761,25 +1043,31 @@ function RonaldoMessiPost() {
         <Callout>Numbers tell you what happened. They don't tell you how hard it was.</Callout>
 
         {/* SECTION 2 */}
-        <SectionHeading kicker="Section 2">One Man Conquered Four Kingdoms. The Other Ruled One.</SectionHeading>
+        <SectionHeading kicker="Section 2">The Boy From Madeira Who Refused to Be Ordinary</SectionHeading>
         <Reveal>
-          <P>Messi spent his peak — nearly two decades — inside one system: Barcelona. Same city, same teammates (Xavi, Iniesta, Busquets), same philosophy he learned as a boy at La Masia. A perfect machine built around his exact movements. When he finally left for PSG, his league scoring dropped to just <strong>6 goals</strong> in his first season — even with Mbappé and Neymar beside him.</P>
-          <P>Ronaldo did the opposite. He kept walking into <em>new</em> machines and forcing them to run on his fuel.</P>
+          <P>Some legends are born. Others are built.</P>
+          <P>Messi was scouted as a child, brought into the best academy on earth, given a system shaped around his gifts, surrounded by Xavi, Iniesta, and Busquets. A protected, perfect rise. He may be the greatest natural talent football has ever seen.</P>
+          <P>Ronaldo did not arrive as the chosen one. He arrived as a skinny teenager from a small island with an impossible dream — left home at 12, lost his father young, diagnosed with a heart condition at 15. Everything that followed was <em>built</em>: through obsession, discipline, sacrifice, and an almost irrational refusal to accept limits.</P>
+          <P>If two students both score 95, but one had private tutors and elite schools while the other fought through adversity and still scored 95 — whose 95 impresses you more? Different countries. Different languages. Different leagues. Different teammates. <strong>Same result: Ronaldo scoring goals.</strong></P>
         </Reveal>
-        <Reveal><LeagueConquest /></Reveal>
+        <Reveal><JourneyRoadmap /></Reveal>
         <Reveal>
-          <P>The records this produced are untouchable: the <strong>only</strong> player to win the league AND be named Player of the Year in England, Spain, and Italy; the <strong>only</strong> player to finish top scorer in <strong>four different countries</strong>; and <strong>100+ goals in five different competitions</strong>. This is the heart of it — Ronaldo's career is <em>structurally harder</em>. Messi mastered one tailor-made system. Ronaldo conquered four footballing worlds.</P>
+          <P>He won league titles — and finished top scorer — in <strong>England, Spain, and Italy</strong>, the only player to win the league and be named Player of the Year in all three. Then he carried elite standards to a fourth country in Saudi Arabia. If two engineers are both elite, but one succeeded only at Google while the other succeeded at Google, Microsoft, <em>and</em> Amazon — who proved greater adaptability? When Messi left his one system for France, his league scoring dropped to just <strong>6 goals</strong> even with Mbappé and Neymar beside him.</P>
         </Reveal>
-        <Callout>A genius at home is impressive. A genius everywhere is undeniable.</Callout>
+        <Callout>Messi was born extraordinary. Ronaldo built himself into extraordinary.</Callout>
 
         {/* SECTION 3 */}
-        <SectionHeading kicker="Section 3">Two Very Different Starting Lines</SectionHeading>
+        <SectionHeading kicker="Section 3">One Career. Five Different Players.</SectionHeading>
         <Reveal>
-          <P>Greatness isn't just where you finish. It's how far you climbed.</P>
-          <P><strong>Messi's path:</strong> scouted as a child, brought into the best academy in the world, given hormone treatment, surrounded by world-class teammates, handed a system built around his gifts. A smooth, protected rise.</P>
-          <P><strong>Ronaldo's path:</strong> born poor on a tiny island, swept streets to help his family, left home at 12, lost his father to alcoholism, diagnosed with a heart condition at 15 — and still clawed his way to the top through sheer will. One man was handed a ladder. The other built his own.</P>
+          <P>Most players have one prime. Ronaldo had several — because every time his body changed, he rebuilt his game to stay on top. This is the greatest reinvention in sports history.</P>
         </Reveal>
-        <Callout>Talent opens the door. Relentlessness decides how far you walk through it.</Callout>
+        <Reveal><EvolutionTimeline /></Reveal>
+        <Reveal>
+          <P>In 2014, at 29, a degenerative knee condition should have ended his explosiveness. Instead he retrained around it — six hours a day — and reinvented himself from a flashy winger into the deadliest penalty-box predator alive. The result: three straight Champions Leagues, something no club had done since 1976. He even scored <strong>more hat-tricks after turning 30 (34) than before it (30)</strong> — more than the entire careers of Agüero, Ibrahimović, or Kane.</P>
+          <P>Football history has produced thousands of talented players. Ronaldo built a career so extraordinary that <strong>scoring 50 goals a season became "normal."</strong> The impossible became expected.</P>
+        </Reveal>
+        <Reveal><LeagueConquest /></Reveal>
+        <Callout>Talent has limits. Obsession doesn't.</Callout>
 
         {/* SECTION 4 */}
         <SectionHeading kicker="Section 4">The Number That Won't Stop Climbing</SectionHeading>
@@ -813,8 +1101,15 @@ function RonaldoMessiPost() {
         <SectionHeading kicker="Section 6">The Biggest Stage Belongs to One Man</SectionHeading>
         <Reveal>
           <P>The Champions League is the highest level of club football on earth — the hardest trophy to win. And it is Ronaldo's private kingdom. He's the <strong>all-time top scorer (140) AND top assister (42)</strong> at the same time, top scorer of <strong>6 campaigns</strong> between 2012–2018, and the only player to score in <strong>3 different finals</strong>.</P>
+          <P>Here's what that did to a giant. <strong>Before Ronaldo joined Real Madrid, they kept crashing out in the Round of 16.</strong> After he arrived, they won <strong>4 Champions Leagues in 9 years</strong> — and his <em>worst</em> exit in that span was a semi-final. One signing turned a stalling superpower into the most dominant team in Europe.</P>
         </Reveal>
         <Reveal><UCLBars /></Reveal>
+        <Reveal><UCLKnockoutTable /></Reveal>
+        <Reveal>
+          <P>And the records he holds at the same time are almost hard to believe — he was, <em>simultaneously</em>, the all-time top scorer for Real Madrid, the Champions League, international football, and Portugal.</P>
+        </Reveal>
+        <Reveal><FourCrowns /></Reveal>
+        <Reveal><UCLRecords /></Reveal>
         <Reveal>
           <P>Against the two greatest goalkeepers of the era — Buffon and Neuer — the gap is brutal: Ronaldo scored <strong>18 goals in 12 games</strong>; Messi managed <strong>4 in 8</strong>. The bigger the wall, the higher Ronaldo climbed.</P>
         </Reveal>
@@ -831,32 +1126,40 @@ function RonaldoMessiPost() {
         <Reveal>
           <P>And Ronaldo owns World Cup records Messi doesn't: the <strong>only male player to score in five consecutive World Cups</strong> (2006–2022), the only player to score in <strong>five separate Euros</strong> (2004–2024), and goals against <strong>47 different countries</strong>. Messi won the trophy once. Ronaldo stayed elite across five tournaments spanning two decades.</P>
           <P><strong>One more myth to bust.</strong> Critics say Ronaldo has zero World Cup knockout goals while Messi has five. True — but <em>all five of Messi's knockout goals came in a single edition (2022)</em>; before that, across four World Cups, he also had zero. And of those five, <strong>three were penalties</strong>. A fair reading isn't "Messi is clutch and Ronaldo isn't" — it's that both men's World Cup knockout records are thinner than the highlight reels suggest.</P>
+          <P>And zoom out from the one trophy he's missing to what he <em>gave</em> an entire nation.</P>
         </Reveal>
+        <Reveal><PortugalBeforeAfter /></Reveal>
         <Callout>A World Cup proves a team peaked for a month. A career proves a man was great for twenty years.</Callout>
 
         {/* SECTION 8 */}
         <SectionHeading kicker="Section 8">One Inherited a Superpower. The Other Built One.</SectionHeading>
         <Reveal>
           <P>This is the part the trophy count hides completely. <strong>Argentina</strong> was already a football superpower — two World Cups and over a dozen Copa Américas <em>before Messi was even born</em>. He joined a giant.</P>
-          <P><strong>Portugal</strong>, before Ronaldo, had qualified for just three World Cups in their entire history and had <strong>never won a major trophy</strong>. He dragged them to the <strong>Euro 2016 title</strong> and the Nations League crown <strong>twice (2019 and 2025)</strong>, became the <strong>highest international goalscorer in history (143 goals)</strong>, and is the <strong>all-time top scorer in the European Championship (14 goals)</strong>. He owns roughly <strong>22% of all the trophies Portugal has ever won</strong>. One man inherited a kingdom. The other built one from nothing.</P>
-          <P>And there's the question of mental strength. After missing a penalty in the <strong>2016 Copa América final</strong>, Messi announced his <strong>retirement from international football</strong> — only to reverse it later. Imagine the media storm if Ronaldo had walked away from his country after a final loss, then walked back. He never did. He kept showing up, final after final, carrying Portugal until the trophies came. Resilience under that weight is its own kind of greatness.</P>
+          <P><strong>Portugal</strong>, before Ronaldo, had qualified for just three World Cups in their entire history and had <strong>never won a major trophy</strong>. He dragged them to the <strong>Euro 2016 title</strong> and the Nations League crown <strong>twice (2019 and 2025)</strong>, became the <strong>highest international goalscorer in history (143 goals)</strong>, and is the <strong>all-time top scorer in the European Championship (14 goals)</strong>. He owns roughly <strong>22% of all the trophies Portugal has ever won</strong>. International football is harder to dominate alone — less training, less chemistry, smaller talent pools — and Ronaldo carried the heavier burden with the lighter team. One man inherited a kingdom. The other built one from nothing.</P>
         </Reveal>
         <Reveal><GoalQuality /></Reveal>
         <Callout>It's easy to be great for a giant. It's history to make a giant out of nothing.</Callout>
 
         {/* SECTION 9 */}
-        <SectionHeading kicker="Section 9">The Comeback Nobody Talks About</SectionHeading>
+        <SectionHeading kicker="Section 9">More to Lose, Everywhere He Went</SectionHeading>
         <Reveal>
-          <P>In 2014, at 29, Ronaldo was diagnosed with patellar tendinosis — a degenerative knee condition that ends explosive athletes. His dribble goals collapsed from 9 to 2 in a single year. Most players fade here. Ronaldo <strong>rebuilt himself</strong> — six hours a day of rehab, retrained around single-leg stability, and tactically reinvented his game from a touchline winger into the deadliest penalty-box predator in the world.</P>
-          <P>The result? Three straight Champions Leagues — something no club had done since 1976. Then the impossible: he scored <strong>more hat-tricks after turning 30 (34) than before it (30)</strong>. His post-30 haul alone beats the entire careers of Agüero, Ibrahimović, or Kane.</P>
+          <P>Greatness under comfort is easy. Greatness under pressure is rare. At Manchester United, Real Madrid, Juventus, and Portugal, Ronaldo was <em>always</em> the man expected to score. When those teams lost, the blame landed on him — every time. The burden of expectation followed him into every country, every dressing room, every final.</P>
+          <P>And here's the part that reveals everything about mental strength. After missing a penalty in the <strong>2016 Copa América final</strong>, Messi announced his <strong>retirement from international football</strong> — then reversed it. Imagine the storm if Ronaldo had walked away from his country after a final, then walked back. He never did. He kept showing up, final after final, until the trophies came.</P>
+          <P>And consider the risk he chose to take. Most legends protect their legacy by staying where they're comfortable. Ronaldo left England after conquering it. Left Spain after conquering it. Left Italy after conquering it. He kept gambling his legacy — and kept winning the bet.</P>
+          <P>But the truest test of greatness is what a player does when the team is <em>drowning</em>. Time and again, Ronaldo single-handedly dragged his side back from the edge — something Messi has never been asked to do in the same way, because his teams rarely needed rescuing.</P>
+        </Reveal>
+        <Reveal><ClutchMoments /></Reveal>
+        <Reveal>
+          <P>Long after the trophies are counted and the awards are forgotten, one question will remain: <strong>how does a boy from a small island become the most complete goalscorer football has ever seen?</strong> The answer is Cristiano Ronaldo.</P>
         </Reveal>
         <Reveal><Age36Split /></Reveal>
-        <Callout>He didn't fight age. He re-engineered himself to beat it.</Callout>
+        <Callout>Greatness isn't staying where you're comfortable. It's leaving when you're already on top.</Callout>
 
         {/* SECTION 10 */}
         <SectionHeading kicker="Section 10">It Should Be 6–6. Here's the Receipt.</SectionHeading>
         <Reveal>
-          <P>The Ballon d'Or is football's top individual prize. The official count says Messi 8, Ronaldo 5. But three of those awards don't survive a look at the data. By performance, it should be <strong>6 apiece</strong>.</P>
+          <P>First, the framing. The Ballon d'Or measures who had the better <em>year</em>. The GOAT debate is about who had the greater <em>career</em>. They are not the same thing. <strong>Great players have won fewer Ballon d'Ors than their talent suggests, voting is subjective, and media narratives heavily influence the awards.</strong></P>
+          <P>The official count says Messi 8, Ronaldo 5. But three of those awards don't survive a look at the data. By performance, it should be <strong>6 apiece</strong>.</P>
         </Reveal>
         <Reveal><BallonRecount /></Reveal>
         <Reveal>
@@ -876,14 +1179,27 @@ function RonaldoMessiPost() {
         </Reveal>
         <Callout>You can be the king of one kingdom, or the conqueror of many. Only one of those is the GOAT.</Callout>
 
-        {/* CONCLUSION */}
-        <SectionHeading kicker="The Verdict">Greatness That Travels</SectionHeading>
+        {/* SECTION 12 — THOUGHT EXPERIMENT */}
+        <SectionHeading kicker="Section 12">Football's Greatest Experiment</SectionHeading>
         <Reveal>
-          <P>So here's where we land. If greatness is a spreadsheet, Messi wins. He's the more gifted natural footballer — and that's not up for debate.</P>
-          <P>But if greatness is the ability to walk into <em>any</em> country, <em>any</em> system, <em>any</em> level of adversity — and still come out on top — then there's only one answer. Ronaldo conquered four leagues. Top-scored four nations. Rebuilt his body to beat time. Carried a country that had nothing before him. Owned the biggest stage in club football. Scored across five World Cups and three decades.</P>
-          <P>And here's the part the spreadsheet can never capture: Ronaldo is football's <strong>complete player</strong>. He scores with his <strong>left foot</strong> and his <strong>right</strong>, with towering <strong>headers</strong> and jaw-dropping <strong>bicycle kicks</strong> and <strong>acrobatic</strong> volleys. He has blistering <strong>speed</strong>, thunderous <strong>long shots</strong>, slick <strong>dribbling</strong>, ice-cold <strong>clutch</strong> instincts, and the calm of a <strong>penalty master</strong> who stays composed when the whole world is watching. He <strong>creates</strong> as well as he finishes — sharp <strong>playmaking</strong> and <strong>pinpoint passing</strong> — all wrapped in an <strong>athletic engine</strong> that refuses to age. There is no part of the game he hasn't mastered.</P>
+          <P>Here's the cleanest test of all. You're starting a brand-new team. Unknown league. Unknown teammates. Unknown coach. Unknown country. You can pick one player to guarantee success.</P>
+          <P>Remove the academy. Remove the system. Remove the perfect teammates. Remove the comfort zone. Who has <em>already proven</em> he survives every variable? Ronaldo has done exactly that — four times, in four countries. That's not a trophy count. That's proof.</P>
+        </Reveal>
+        <Callout>Great players need the right conditions. Ronaldo proved greatness survives every condition.</Callout>
+
+        {/* CONCLUSION */}
+        <SectionHeading kicker="The Verdict">Football's Greatest Artist vs Its Greatest Achievement</SectionHeading>
+        <Reveal>
+          <P>So here's where we land. If greatness is trophies, Messi has a powerful case. If greatness is natural talent, Messi may be unmatched.</P>
+          <P>But if greatness is conquering different leagues, adapting to different systems, reinventing yourself over two decades, carrying expectations across multiple countries, and becoming the most complete goalscorer football has ever seen — then Ronaldo stands alone.</P>
+          <P>Because here's the part the spreadsheet can never capture: Ronaldo is football's <strong>complete player</strong>. He scores with his <strong>left foot</strong> and his <strong>right</strong>, with towering <strong>headers</strong>, jaw-dropping <strong>bicycle kicks</strong>, and <strong>acrobatic</strong> volleys. He has blistering <strong>speed</strong>, thunderous <strong>long shots</strong>, slick <strong>dribbling</strong>, ice-cold <strong>clutch</strong> instincts, and the calm of a <strong>penalty master</strong> under the whole world's gaze. He <strong>creates</strong> as well as he finishes — sharp <strong>playmaking</strong> and <strong>pinpoint passing</strong> — all wrapped in an <strong>athletic engine</strong> that refuses to age. There is no part of the game he hasn't mastered.</P>
         </Reveal>
         <Reveal><CompletePlayer /></Reveal>
+        <Reveal>
+          <P>And the most dangerous thing about Ronaldo was never his talent. It was the <strong>certainty</strong> — the belief he created in everyone's mind. Opponents could play the perfect match for 89 minutes — the team flawless, the crowd against him — and still know, deep down, that he needed only one moment to turn their best performance into a defeat. Because Ronaldo had a rare ability to change the outcome of a match in a single moment. One cross. One header. One shot. One chance. That was all he needed. They didn't wonder <em>if</em> he would score. They wondered <em>when</em>.</P>
+          <P>For over two decades, the world's best defenders, managers, and teams feared him — not because he <em>might</em> score, but because deep down they knew he probably <em>would</em>.</P>
+          <P>Football has seen artists. Football has seen magicians. Football has seen geniuses. But it has never seen another Cristiano Ronaldo — a player who turned discipline into a superpower, pressure into fuel, doubt into motivation, and a dream into a legacy so large that generations will argue about it forever.</P>
+        </Reveal>
         <div className="my-10 sm:my-14 text-center">
           <motion.blockquote
             initial={{ opacity: 0, scale: 0.96 }}
@@ -893,10 +1209,10 @@ function RonaldoMessiPost() {
             className="font-display text-xl sm:text-2xl md:text-3xl font-bold leading-snug"
             style={{ background: `linear-gradient(90deg, ${C.cr7}, ${C.gold})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
           >
-            "Messi mastered a kingdom. Ronaldo conquered the world."
+            "Messi won more. Ronaldo did more. One mastered a kingdom. The other conquered the world."
           </motion.blockquote>
           <p className="mt-4 text-sm" style={{ color: C.text2 }}>
-            Stats measure what a player did. Greatness measures what he overcame — and how complete he was while doing it.
+            Messi is football's greatest artist. Ronaldo is its greatest achievement.
           </p>
         </div>
 
