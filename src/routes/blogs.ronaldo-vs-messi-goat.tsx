@@ -666,7 +666,7 @@ function JourneyRoadmap() {
     { flag: "🏝️", club: "Madeira", sub: "The skinny dreamer", color: C.gray },
     { flag: "🇵🇹", club: "Sporting CP", sub: "The breakout", color: C.green },
     { flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", club: "Man United", sub: "3 PL titles · 1 UCL · 1st Ballon d'Or", color: C.cr7 },
-    { flag: "🇪🇸", club: "Real Madrid", sub: "450 goals · 4 UCLs · 2 Ballon d'Ors", color: C.gold },
+    { flag: "🇪🇸", club: "Real Madrid", sub: "450 goals · 4 UCLs · 4 Ballon d'Ors", color: C.gold },
     { flag: "🇮🇹", club: "Juventus", sub: "2 Serie A · Golden Boot at 33", color: C.green },
     { flag: "🇸🇦", club: "Al-Nassr", sub: "Top scorer in a 4th country", color: C.purple },
   ];
